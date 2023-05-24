@@ -6,7 +6,7 @@ interest was detected.
 '''
 from datetime import datetime
 import requests
-from earthranger_utils.get_cam_location import cam_location
+from sageranger.get_cam_location import cam_location
 
 
 def is_target(cam_name, token, authorization, label):

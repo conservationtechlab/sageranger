@@ -5,7 +5,7 @@ in Earthranger that shows up on the map and returns the id that event.
 '''
 import json
 from datetime import datetime, timedelta
-from earthranger_utils.get_cam_location import cam_location
+from sageranger.get_cam_location import cam_location
 
 import requests
 
