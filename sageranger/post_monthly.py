@@ -1,18 +1,19 @@
 import requests
-from datetime import datetime
-def post_monthly_obs(token, authorization):
-'''The function posts observations monthly to ensure every camera trap stays active on earth ranger
-'''
+from datetime import datetime as dt
+import yaml
+
+def post_monthly_obs(TOKEN, AUTH):
+
 	Headers = {
-        	'X-CSRFToken': token,
-        	'Authorization': authorization,
+		'X-CSRFToken': TOKEN,
+       	'Authorization':AUTH,
         	'Accept':'application/json'
    	}
 	
 	url_obs = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
 	url_s = 'https://sagebrush.pamdas.org/api/v1.0/sources/'
 
-	current_time = datetime.utcnow()
+	current_time = dt.utcnow()
 	formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
 	response = requests.get (url_s, headers=Headers)
@@ -27,4 +28,5 @@ def post_monthly_obs(token, authorization):
 				"source": results[i]['id'], 
 	 			"device_status_properties": [{"value": 'test', "label": "animal", "units": ""}], 
 	 			"additional": {"animal": 'test'}}
-			requests.post(url_obs, headers=Headers, json=obs_data)
+			response = requests.post(url_obs, headers=Headers, json=obs_data)
+			print(response)
