@@ -1,51 +1,38 @@
-'''Post monthly
+'''Get Cam Location
 
-This script defines a function called post_monthly_obs where an http request
-is used to retrieve the subject IDs of all camera traps included in sagebrush,
-and uses an http request to post an empty observation with longitude and
-latitude (0,0) once every month with cougar vision to ensure the camera stays
-active on sagebrush.
+This script defines a function called cam_location where an http request is performed
+to retrieve the lat, long, and unique id for the camera trap that the current classified
+image from strikeforce has in earthranger so that the event may be linked to the specific
+camera.
 '''
-from datetime import datetime as dt
+
 import requests
 
+def cam_location(cam_name, token, authorization):
+    '''Cam Location
 
-def post_monthly_obs(token, auth):
-    '''post_monthly_obs
-    This function gets the subject id of camera traps and posts observations
-    onto earthranger
+    This function takes in the name of the camera in earthranger and returns
+    the lat and longs of that camera as well as earthrangers unique identifyer
+    for it.
+
     Args:
-        token: the token for api calls in earthranger 'str'
-        auth: another token for api calls as specified in config yml 'str'
-    Returns: the http request response code to tell us if the call worked
-    or not
+    cam_name: the name (B001, B002...) of the camera as it is in earthranger 'str'
+    token: the token for api calls in earthranger 'str'
+    authorization: another token for ER api calls as specified in config yml 'str'
+
+    Return: lat and longs of the camera location as a list and the unique id of the camera
+        in earthranger as a 'str'
     '''
+    
+    url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
     headers = {
         'X-CSRFToken': token,
-        'Authorization': auth,
+        'Authorization': authorization,
         'Accept': 'application/json'
     }
-
-    url_obs = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
-    url_s = 'https://sagebrush.pamdas.org/api/v1.0/sources/'
-
-    current_time = dt.utcnow()
-    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
-
-    response = requests.get(url_s, headers=headers, timeout=10)
+    response = requests.get(url, headers=headers)
     response_json = response.json()
-    results = response_json['data']['results']
 
-    for i in enumerate(results):
-        i = i[0]
-        if results[i]['manufacturer_id'][:2] == 'B0':
-            obs_data = {
-                "location": {"longitude": 0, "latitude": 0},
-                "recorded_at": formatted_time,
-                "source": results[i]['id'],
-                "device_status_properties":
-                [{"value": 'test', "label": "animal", "units": ""}],
-                "additional": {"animal": 'test'}
-                }
-            response = requests.post(url_obs, headers=headers, json=obs_data, timeout=10)
-            print(response)
+    cam_locations = response_json['data'][0]['last_position']['geometry']['coordinates']
+    subject_id = response_json['data'][0]['id']
+    return(cam_locations, subject_id)
