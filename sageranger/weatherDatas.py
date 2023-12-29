@@ -6,76 +6,87 @@ import datetime
 from datetime import timezone
 from time import gmtime, strftime
 
+
 Headers = {
-     'X-CSRFToken': 'token',
-     'Authorization': 'Bearer Authorization'
+     'X-CSRFToken': 'You API',
+     'Authorization': 'Bearer Auth key'
 }
 
-
+#URL
 url = 'https://sagebrush.pamdas.org/api/v1.0/observations/?subject_id=ee76e226-c05e-400b-9ae9-db8b11b5359b'
 
 
-   
+
+def get_sensor(token, autorization):
+    '''This function posts observation on the heat sensor'''
+    Headers = {
+            'X-CSRFToken': token,
+            'Authorization': autorization,
+    }
+  
+    
+
 response= requests.get(url, headers=Headers, timeout=20)
 
-data = response.json().get("results", []) or []
+json_string = response.content
+
+
+# Load the JSON data
+data = json.loads(json_string)
 
 
 
- 
-def extract_property_value(properties, prop_name):
-    if not isinstance(properties, list):
-        return "0"
-    return next((prop["value"] for prop in properties if isinstance(prop, dict) and prop.get("name")== prop_name), '0')
+#Check network connection
+print(response)
+
+def extract_results(data):
+    result_list = []
+    
+    for i in range(0, len(data['data']['results'])):
+        result = data['data']['results'][i]
+        result_list.append(result)
+    
+    return pd.DataFrame(result_list)
+
+df = extract_results(data)
+
+first_df = df[['id', 'recorded_at', 'created_at', 'source', 'exclusion_flags']]
+print(first_df)
 
 
-df = pd.DataFrame({
-    'humidity': [extract_property_value(obs['device_status_properties'], 'humidity') for obs in data],
-    'recorded_at': [obs.get['recorded_at','0'] for obs in data],
-    'battery': [extract_property_value(obs['device_status_properties'], 'battery')for obs in data],
-    'external_temperature': [extract_property_value(obs['device_status_properties'],'external_temperature')for obs in data],
-    'internal_temperature': [extract_property_value(obs['device_status_properties'],'internal_temperature')for obs in data]
-})
+def device_status_properties(data):
+    cols = {'Humidity': 0, 'External Temperature': 1 , 'Internal Temperature': 2, 'Battery Status': 3}
+    dataSet = []  # Initialize an empty list to store the results
+    
+    for row in df['device_status_properties'].values:
+        x = ['0%', '0%', '0%', '0V']
+        if type(row) == list:
+            for val in row:
+                colKey = val['label']
+                value = str(val['value'])
+                # Replace the 0 in the row with the value in the value column
+                x[cols[colKey]] = x[cols[colKey]].replace('0', str(value))
+        dataSet.append(x)
+    device_df = pd.DataFrame(dataSet, columns = cols)
+    return device_df
 
-# Print the dataframe
-print(df)
+print(device_status_properties(data))
 
-
-
-
-# def get_date(df):
-#     # Getting key
-#     recorded_at_key = list(df['data']['results'][0].keys())[2]
-
-#     print(recorded_at_key.capitalize())
-
-#     # Getting all the recorded_at value
-#     recorded_at = [df['data'][3][i][recorded_at_key] for i in range(0, len(df['data'][3]))]
-
-
-#     for index, time in enumerate(recorded_at):
-        
-#         # Convert recorded_at to datetime format
-#         new_timestamp = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S%z")
-        
-#         #converts the new_timestamp object to GMT.
-#         new_timestamp_gmt = new_timestamp.astimezone(timezone.utc)
-        
-#         # Format new_timestamp_gmt in GMT
-#         new_timestamp_gmt_formatted = new_timestamp_gmt.strftime("%A, %Y-%m-%d %H:%M:%S")
-        
-#         dates_list = ('Timestamp: ', new_timestamp_gmt_formatted)
-        
-#         print(dates_list)
-        
-#     return dates_list
-
-# print(get_date(df))
+# Now you can use 'result_data_set' for further processing or analysis.
 
 
 
 
+##################################
 
+def concat_df(df1, df2):
+     concatenated_df = pd.concat([df1, df2], axis=1)
+     return concatenated_df
+    
 
-  
-  
+second_df = device_status_properties(data)
+
+result_df = concat_df(first_df, second_df)
+
+result_df.to_csv('weatherReport.csv', index=False)
+
