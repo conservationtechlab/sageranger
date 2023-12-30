@@ -8,8 +8,8 @@ from time import gmtime, strftime
 
 
 Headers = {
-     'X-CSRFToken': 'TK5B5Dqlj63VnwfZuaAo0pjnz1dO4CQ7upujY6jjogR9nVhwDz8lDqwqfy0VPfNI',
-     'Authorization': 'Bearer uSuMh1uTMYIBp6BXywfR8FSHmHP4C2'
+     'X-CSRFToken': 'Token',
+     'Authorization': 'Bearer Authoriztion'
 }
 
 #URL
