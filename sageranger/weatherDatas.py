@@ -8,8 +8,8 @@ from time import gmtime, strftime
 
 
 Headers = {
-     'X-CSRFToken': 'Token',
-     'Authorization': 'Bearer Authoriztion'
+     'X-CSRFToken': 'Token API',
+     'Authorization': 'Bearer Authorization'
 }
 
 #URL
@@ -54,6 +54,15 @@ print(df)
 first_df = df[['id', 'recorded_at', 'created_at', 'source', 'exclusion_flags']]
 print(first_df)
 
+# Extracting longitude and latitude data
+def location(data):
+    results = data['data']['results']
+    location_df = pd.DataFrame(results)
+    location_df['longitude'] = location_df['location'].apply(lambda x: x['longitude'])
+    location_df['latitude'] =location_df['location'].apply(lambda x: x['latitude'])
+    location_df = (location_df[['longitude', 'latitude']])
+    return location_df
+
 
 
 def device_status_properties(data):
@@ -74,15 +83,15 @@ def device_status_properties(data):
 
 print(device_status_properties(data))
 
-
-def concat_df(df1, df2):
-     concatenated_df = pd.concat([df1, df2], axis=1)
+#Concate for row and column
+def concat_df(df1, df2, df3):
+     concatenated_df = pd.concat([df1, df3,df2], axis=1)
      return concatenated_df
     
 
 second_df = device_status_properties(data)
-
-result_df = concat_df(first_df, second_df)
+third_df = location(data)
+result_df = concat_df(first_df, second_df, third_df)
 
 result_df.to_csv('weatherReport.csv', index=False)
 
