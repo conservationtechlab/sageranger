@@ -8,8 +8,8 @@ from time import gmtime, strftime
 
 
 Headers = {
-     'X-CSRFToken': 'You API',
-     'Authorization': 'Bearer Auth key'
+     'X-CSRFToken': 'TK5B5Dqlj63VnwfZuaAo0pjnz1dO4CQ7upujY6jjogR9nVhwDz8lDqwqfy0VPfNI',
+     'Authorization': 'Bearer uSuMh1uTMYIBp6BXywfR8FSHmHP4C2'
 }
 
 #URL
@@ -50,8 +50,10 @@ def extract_results(data):
 
 df = extract_results(data)
 
+print(df)
 first_df = df[['id', 'recorded_at', 'created_at', 'source', 'exclusion_flags']]
 print(first_df)
+
 
 
 def device_status_properties(data):
@@ -59,7 +61,7 @@ def device_status_properties(data):
     dataSet = []  # Initialize an empty list to store the results
     
     for row in df['device_status_properties'].values:
-        x = ['0%', '0%', '0%', '0V']
+        x = ['0%', '0C', '0C', '0V']
         if type(row) == list:
             for val in row:
                 colKey = val['label']
@@ -72,12 +74,6 @@ def device_status_properties(data):
 
 print(device_status_properties(data))
 
-# Now you can use 'result_data_set' for further processing or analysis.
-
-
-
-
-##################################
 
 def concat_df(df1, df2):
      concatenated_df = pd.concat([df1, df2], axis=1)
