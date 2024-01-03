@@ -1,20 +1,21 @@
-import requests
+
 import pandas as pd
-import csv
+import requests
 import json
+import pytz
 import datetime
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
+
 from time import gmtime, strftime
 
 
 Headers = {
-     'X-CSRFToken': 'Token API',
-     'Authorization': 'Bearer Authorization'
+     'X-CSRFToken': 'IfmhCe09jkTbCl2Rc5lCmNlzepp1GFQncHJNSgTbslZtashIMtByyAlMpYIx1Xcp',
+     'Authorization': 'Bearer I4xBKwEBK7h7FxtpdBHyc4XkWCCuJM'
 }
 
 #URL
 url = 'https://sagebrush.pamdas.org/api/v1.0/observations/?subject_id=ee76e226-c05e-400b-9ae9-db8b11b5359b'
-
 
 
 def get_sensor(token, autorization):
@@ -23,9 +24,6 @@ def get_sensor(token, autorization):
             'X-CSRFToken': token,
             'Authorization': autorization,
     }
-  
-    
-
 response= requests.get(url, headers=Headers, timeout=20)
 
 json_string = response.content
@@ -34,10 +32,8 @@ json_string = response.content
 # Load the JSON data
 data = json.loads(json_string)
 
-
-
 #Check network connection
-print(response)
+
 
 def extract_results(data):
     result_list = []
@@ -50,11 +46,37 @@ def extract_results(data):
 
 df = extract_results(data)
 
-print(df)
-first_df = df[['id', 'recorded_at', 'created_at', 'source', 'exclusion_flags']]
-print(first_df)
+# df['recorded_at'] = pd.to_datetime(df['recorded_at'], utc=True)
 
-# Extracting longitude and latitude data
+# # Convert to PST (Pacific Standard Time)
+# df['recorded_at_pst'] = df['recorded_at'].dt.tz_convert('America/Los_Angeles')
+
+# # Format the 'recorded_at_pst' column with US standard time format
+# df['formatted_time'] = df['recorded_at_pst'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+# pst_time = df['formatted_time']
+# print(pst_time)
+
+# Function to check if a date string is within the last week
+# def is_last_week(data):
+#     date_obj = datetime.fromisoformat(data[:-6])  # Removing the timezone offset for simplicity
+#     last_week = datetime.now() - timedelta(days=7)
+#     return date_obj >= last_week
+
+##################################################################
+#   Define the start and end dates for your desired date range
+#   for your report.
+#      
+##################################################################
+
+start_date = datetime(2023, 4, 1, tzinfo=pytz.UTC)
+end_date = datetime(2023, 4, 30, tzinfo=pytz.UTC)
+
+
+# Extracting data form (exclude exclusion_flags)
+first_df = df[['id','recorded_at','created_at', 'source']]
+#print(first_df)
+
+# Extracting data from longitude and latitude
 def location(data):
     results = data['data']['results']
     location_df = pd.DataFrame(results)
@@ -81,7 +103,7 @@ def device_status_properties(data):
     device_df = pd.DataFrame(dataSet, columns = cols)
     return device_df
 
-print(device_status_properties(data))
+#print(device_status_properties(data))
 
 #Concate for row and column
 def concat_df(df1, df2, df3):
@@ -91,7 +113,26 @@ def concat_df(df1, df2, df3):
 
 second_df = device_status_properties(data)
 third_df = location(data)
+# Concatenate DataFrames
 result_df = concat_df(first_df, second_df, third_df)
 
-result_df.to_csv('weatherReport.csv', index=False)
+    
+def filter_and_save_to_csv(result_df, start_date, end_date, output_filename):
+        title = f'From_{start_date.strftime("%Y%m%d")}_To_{end_date.strftime("%Y%m%d")}'
+        # Convert 'recorded_at' to datetime format
+        result_df['recorded_at'] = pd.to_datetime(result_df['recorded_at']).dt.tz_convert('America/Los_Angeles')
+        # Filter data based on the date range
+        filtered_df = result_df[(result_df['recorded_at'] >= start_date) & (result_df['recorded_at'] <= end_date)]
+       
+       # Save to CSV with title as the first row
+        with open(output_filename, 'w', newline='') as file:
+            file.write(f'Date: {title}\n')
+            filtered_df.to_csv(file, index=False)
+
+output_filename = 'temperatureReport.csv'
+
+# Call the function
+filter_and_save_to_csv(result_df, start_date, end_date, output_filename)
+
+
 
