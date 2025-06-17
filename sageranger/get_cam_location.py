@@ -8,7 +8,7 @@ event may be linked to the specific camera. '''
 import requests
 
 
-def cam_location(cam_name, token, authorization):
+def cam_location(cam_name, authorization):
     '''Cam Location
 
     This function takes in the name of the camera in earthranger and returns
@@ -17,7 +17,6 @@ def cam_location(cam_name, token, authorization):
 
     Args:
     cam_name:the name (B001, B002...) of the camera as it's in ER 'str'
-    token: the token for api calls in earthranger 'str'
     authorization:another token for eathranger api calls as specified in config
     yml'str'
 
@@ -25,7 +24,6 @@ def cam_location(cam_name, token, authorization):
     the camera in earthranger as a 'str' '''
     url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
     headers = {
-        'X-CSRFToken': token,
         'Authorization': authorization,
         'Accept': 'application/json'
     }

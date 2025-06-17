@@ -10,7 +10,7 @@ from datetime import datetime
 import requests
 
 
-def post_monthly_obs(token, auth):
+def post_monthly_obs(auth):
     '''post_monthly_obs
     This function gets the subject id of camera traps and posts observations
     onto earthranger
@@ -21,7 +21,6 @@ def post_monthly_obs(token, auth):
     or not
     '''
     hdr = {
-        'X-CSRFToken': token,
         'Authorization': auth,
         'Accept': 'application/json'
     }

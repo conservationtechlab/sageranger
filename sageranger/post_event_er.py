@@ -8,7 +8,7 @@ import requests
 from sageranger.get_cam_location import cam_location
 
 
-def post_event(label, cam_name, token, authorization):
+def post_event(label, cam_name, authorization):
 
     '''Post Event
 
@@ -21,10 +21,7 @@ def post_event(label, cam_name, token, authorization):
     label: a string value of the animal that the image was classified as
     cam_name: a string of the specific name of the camera that the image came
     from as it also is in Earthranger
-    token: unique token for ER to authenticate http request, defined in config
-    yml authorization: the other auth token for ER as defined in config yml,
-    this was retrieved from the interactive api on ER
-    https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
+    authorization: the other auth token for ER as defined in config
     label: the name of the animal identified to be sent, used as title of jpeg
 
     Returns: the unique id of the event that was posted to be used to attach
@@ -33,10 +30,9 @@ def post_event(label, cam_name, token, authorization):
     u_r_l = 'https://sagebrush.pamdas.org/api/v1.0/activity/events/'
 
     Headers = {
-      'X-CSRFToken': token,
       'Authorization': authorization
     }
-    cam, subject_id = cam_location(cam_name, token, authorization)
+    cam, subject_id = cam_location(cam_name, authorization)
     lat = cam[1]
     longi = cam[0]
 
