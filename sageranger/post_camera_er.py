@@ -29,79 +29,90 @@ prints out the subject id and source id of the uploaded camera trap.
 from datetime import datetime
 import requests
 import pandas as pd
+def post_camera(): 
 
-token = input('input token: ')
-auth = input('input authorization: ')
+    token = input('input token: ')
+    auth = input('input authorization: ')
 
-hdr = {
-    'X-CSRFToken': token,
-    'Authorization': auth,
-    'Accept': 'application/json'
-    }
-
-URL = 'https://sagebrush.pamdas.org/api/v1.0/'
-
-df = pd.read_csv('(put ur csv dir here)', delimiter=' ', header=0)
-cam = df.camera.tolist()
-lat = df.lat.tolist()
-longi = df.longi.tolist()
-
-for i in enumerate(cam):
-    i = i[0]
-    current_time = datetime.utcnow()
-    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
-
-    payload = {
-        "content_type": "observations.subject",
-        "name": cam[i],
-        "subject_type": "stationary-object",
-        "subject_subtype": "camera_trap",
-        'created_at': formatted_time,
-        'updated_at': formatted_time,
-        "is_active": True,
-        "last_position_status": {
-            "last_voice_call_start_at": [],
-            "radio_state_at": [],
-            "radio_state": "na"},
-        "user": None,
-        "last_position": {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [lat[i], longi[i]]}}
+    hdr = {
+        'X-CSRFToken': token,
+        'Authorization': auth,
+        'Accept': 'application/json'
         }
 
-    URL_2 = URL + 'subjects/'
-    subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
-    subject_js = subject.json()
-    subject_id = subject_js['data']['id']
-    print("\nsubject id: " + subject_id)
+    URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-    payload = {
-        "source_type": "seismic",
-        "manufacturer_id": cam[i],
-        "model_name": cam[i],
-        "additional": {},
-        "provider": "cougar_vision",
-        "subject": subject_id,
-        "assigned_range": {}
-    }
+    df = pd.read_csv('/home/montse/sageranger/sageranger/camera_dir.csv', delimiter=' ', header=0)
+    cam = df.camera.tolist()
+    lat = df.lat.tolist()
+    longi = df.longi.tolist() #changed to longi in csv
 
-    URL_3 = URL + 'sources/'
-    source = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
-    response_js = source.json()
-    source_id = response_js['data']['id']
+    for i in enumerate(cam):
+        i = i[0]
+        current_time = datetime.utcnow()
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
-    payload = {
-        "source": source_id,
-        "subject": subject_id,
-        "assigned_range": {}
-    }
+        payload = {
+            "content_type": "observations.subject",
+            "name": cam[i],
+            "subject_type": "stationary-object",
+            "subject_subtype": "camera_trap",
+            'created_at': formatted_time,
+            'updated_at': formatted_time,
+            "is_active": True,
+            "last_position_status": {
+                "last_voice_call_start_at": [],
+                "radio_state_at": [],
+                "radio_state": "na"},
+            "user": None,
+            "last_position": {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [lat[i], longi[i]]
+                }
+            }
+        }
 
-    URL_4 = URL + 'subject/'+subject_id+'/sources/'
-    requests.post(URL_4, headers=hdr, json=payload, timeout=10)
+        URL_2 = URL + 'subjects/'
+        print("url",URL_2)
+        subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
+        # print("subject", subject)
+        subject_js = subject.json()
+        # print("subject_js:",subject_js)
+        subject_id = subject_js['data']['id']
+        print("\nsubject id: " + subject_id)
 
-    response = requests.get(URL_4, headers=hdr, timeout=10)
-    source_2 = response.json()
-    print('source id: ' + source_2['data'][0]['id'])
-    print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
+        payload = {
+            "source_type": "seismic",
+            "manufacturer_id": cam[i],
+            "model_name": cam[i],
+            "additional": {},
+            "provider": "cougar_vision",
+            "subject":{
+                "id": subject_id
+                },
+            "assigned_range": {}
+        }
+
+        URL_3 = URL + 'sources/'
+        source = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
+        print("*** source:", source)
+        response_js = source.json()
+        print("**response_js:", response_js)
+        source_id = response_js['data']['id']
+
+        payload = {
+            "source": source_id,
+            "subject": subject_id,
+            "assigned_range": {}
+        }
+
+        URL_4 = URL + 'subject/'+subject_id+'/sources/'
+        requests.post(URL_4, headers=hdr, json=payload, timeout=10)
+
+        response = requests.get(URL_4, headers=hdr, timeout=10)
+        source_2 = response.json()
+        print('source id: ' + source_2['data'][0]['id'])
+        print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
+
