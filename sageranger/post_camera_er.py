@@ -29,7 +29,10 @@ prints out the subject id and source id of the uploaded camera trap.
 from datetime import datetime
 import requests
 import pandas as pd
-def post_camera(): 
+
+
+def post_camera():
+    """Adds Cameras to csv list of camera traps"""
 
     token = input('input token: ')
     auth = input('input authorization: ')
@@ -40,12 +43,14 @@ def post_camera():
         'Accept': 'application/json'
         }
 
-    URL = 'https://sagebrush.pamdas.org/api/v1.0/'
+    url = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-    df = pd.read_csv('/home/montse/sageranger/sageranger/camera_dir.csv', delimiter=' ', header=0)
+    df = pd.read_csv('/home/montse/sageranger/sageranger/camera_dir.csv',
+                     delimiter=' ',
+                     header=0)
     cam = df.camera.tolist()
     lat = df.lat.tolist()
-    longi = df.longi.tolist() #changed to longi in csv
+    longi = df.longi.tolist()
 
     for i in enumerate(cam):
         i = i[0]
@@ -74,12 +79,10 @@ def post_camera():
             }
         }
 
-        URL_2 = URL + 'subjects/'
-        print("url",URL_2)
-        subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
-        # print("subject", subject)
+        url_2 = url + 'subjects/'
+        print("url", url_2)
+        subject = requests.post(url_2, headers=hdr, json=payload, timeout=10)
         subject_js = subject.json()
-        # print("subject_js:",subject_js)
         subject_id = subject_js['data']['id']
         print("\nsubject id: " + subject_id)
 
@@ -89,17 +92,15 @@ def post_camera():
             "model_name": cam[i],
             "additional": {},
             "provider": "cougar_vision",
-            "subject":{
+            "subject": {
                 "id": subject_id
                 },
             "assigned_range": {}
         }
 
-        URL_3 = URL + 'sources/'
-        source = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
-        print("*** source:", source)
+        url_3 = url + 'sources/'
+        source = requests.post(url_3, headers=hdr, json=payload, timeout=10)
         response_js = source.json()
-        print("**response_js:", response_js)
         source_id = response_js['data']['id']
 
         payload = {
@@ -108,11 +109,10 @@ def post_camera():
             "assigned_range": {}
         }
 
-        URL_4 = URL + 'subject/'+subject_id+'/sources/'
-        requests.post(URL_4, headers=hdr, json=payload, timeout=10)
+        url_4 = url + 'subject/'+subject_id+'/sources/'
+        requests.post(url_4, headers=hdr, json=payload, timeout=10)
 
-        response = requests.get(URL_4, headers=hdr, timeout=10)
+        response = requests.get(url_4, headers=hdr, timeout=10)
         source_2 = response.json()
         print('source id: ' + source_2['data'][0]['id'])
         print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
-
