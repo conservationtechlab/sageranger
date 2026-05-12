@@ -9,10 +9,13 @@ root folder.
 
 from get_cam_location import cam_location
 
+CAMERA = "<camera name>"
+TOKEN = "<bearer token>"
+
 
 def main():
     """Tests get cam locations"""
-    coordinates, s_id = cam_location("<cam name>", "<token>")
+    coordinates, s_id = cam_location(CAMERA, TOKEN)
     print("Coordintes and ID:", coordinates, s_id)
 
 

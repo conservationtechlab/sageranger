@@ -10,6 +10,10 @@ the sageranger root folder.
 
 from post_event_er import post_event
 
+LABEL = "<animal>"
+CAMERA = "<Camera name>"
+TOKEN = "<bearer token>"
+
 def main():
     """Tests creating an event"""
 

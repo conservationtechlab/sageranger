@@ -9,11 +9,14 @@ earthranger for the specifed camera.
 
 from post_cougar_log import is_target
 
+CAMERA = "<camera name>" 
+TOKEN = "<bearer token>"
+LABEL = "<animal>"  # ex. cougar, bobcat
 
 def main():
     """Tests creating an observation in earth ranger"""
 
-    is_target("<camera name>", "<token?", "<label>")
+    is_target(CAMERA, TOKEN, LABEL)
 
 
 if __name__ == "__main__":
