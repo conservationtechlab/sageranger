@@ -3,7 +3,7 @@
 Usage:
     python3 -m UnitTests.test_post
 
-This function tests posting an event 
+This function tests posting an event
 on earthranger. Make sure to test from
 the sageranger root folder.
 """
@@ -14,16 +14,17 @@ LABEL = "<animal>"
 CAMERA = "<Camera name>"
 TOKEN = "<bearer token>"
 
+
 def main():
     """Tests creating an event
 
     This function uses global variables to
     call the post_event function and it
     prints the event id.
-    
+
     """
 
-    event_id = post_event("<label>","<cam name>", "<token>")
+    event_id = post_event("<label>", "<cam name>", "<token>")
     print("Event_ID:", event_id)
 
 
