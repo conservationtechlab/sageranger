@@ -16,10 +16,10 @@ TOKEN = "<bearer token>"
 def main():
     """Tests get cam locations
 
-    This function uses global variables to call the 
-    cam_location function. This function prints the 
+    This function uses global variables to call the
+    cam_location function. This function prints the
     coordinates and the event id.
-    
+
     """
     coordinates, s_id = cam_location(CAMERA, TOKEN)
     print("Coordintes and ID:", coordinates, s_id)
