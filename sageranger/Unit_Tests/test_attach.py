@@ -15,15 +15,17 @@ from PIL import Image
 LABEL = "<animal>"
 CAMERA = "<camera name>"
 TOKEN = "< bearer token>"
-FILE_PATH = "<local_filepath_to_image>"  # use a photo on computer ex. home/user/.....
+# use a photo on computer ex. home/user/.....
+FILE_PATH = "<local_filepath_to_image>"
+
 
 def main():
     """Tests attach image functions
-    
-    This test uses global variables to 
-    call post event and attach image and prints 
+
+    This test uses global variables to
+    call post event and attach image and prints
     the response from the attach image function.
-    
+
     """
     event_id = post_event(LABEL, CAMERA, TOKEN)
     img = Image.open(FILE_PATH)
