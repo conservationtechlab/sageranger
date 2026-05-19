@@ -15,7 +15,13 @@ CAMERA = "<Camera name>"
 TOKEN = "<bearer token>"
 
 def main():
-    """Tests creating an event"""
+    """Tests creating an event
+
+    This function uses global variables to
+    call the post_event function and it
+    prints the event id.
+    
+    """
 
     event_id = post_event("<label>","<cam name>", "<token>")
     print("Event_ID:", event_id)

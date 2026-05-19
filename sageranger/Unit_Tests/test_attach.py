@@ -18,7 +18,13 @@ TOKEN = "< bearer token>"
 FILE_PATH = "<local_filepath_to_image>"  # use a photo on computer ex. home/user/.....
 
 def main():
-    """Tests attach image functions"""
+    """Tests attach image functions
+    
+    This test uses global variables to 
+    call post event and attach image and prints 
+    the response from the attach image function.
+    
+    """
     event_id = post_event(LABEL, CAMERA, TOKEN)
     img = Image.open(FILE_PATH)
     image_bytes = BytesIO()
