@@ -1,7 +1,7 @@
 """Tests camera locations
 
 Usage:
-    python3 -m UnitTests.test_locations
+    python3 -m Unit_Tests.test_locations
 
 Make sure you are testing from the sageranger
 root folder.
@@ -10,7 +10,7 @@ root folder.
 from get_cam_location import cam_location
 
 CAMERA = "<camera name>"
-TOKEN = "<bearer token>"
+TOKEN = "Bearer <token>"
 
 
 def main():
