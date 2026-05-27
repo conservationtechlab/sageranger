@@ -1,7 +1,7 @@
 """Tests Attach Images
 
 Usage:
-    python3 -m UnitTests.test_post
+    python3 -m Unit_Tests.test_post
 
 This function tests posting an event
 on earthranger. Make sure to test from
@@ -11,8 +11,8 @@ the sageranger root folder.
 from post_event_er import post_event
 
 LABEL = "<animal>"
-CAMERA = "<Camera name>"
-TOKEN = "<bearer token>"
+CAMERA = "<camera_name>"
+TOKEN = "Bearer <token>"
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
 
     """
 
-    event_id = post_event("<label>", "<cam name>", "<token>")
+    event_id = post_event(LABEL,CAMERA, TOKEN)
     print("Event_ID:", event_id)
 
 

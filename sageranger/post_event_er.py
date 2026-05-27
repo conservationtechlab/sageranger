@@ -19,7 +19,7 @@ def post_event(label, cam_name, authorization):
     label: a string value of the animal that the image was classified as
     cam_name: a string of the specific name of the camera that the image came
     from as it also is in Earthranger
-    authorization: the other auth token for ER as defined in config
+    authorization: the auth token for ER as defined in config
     label: the name of the animal identified to be sent, used as title of jpeg
 
     Returns: the unique id of the event that was posted to be used to attach

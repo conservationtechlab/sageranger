@@ -1,7 +1,7 @@
 """Tests Attach Images
 
 Usage:
-    python3 -m UnitTests.test_attach
+    python3 -m Unit_Tests.test_attach
 
 This function posts an event and takes the
 event ID to attach an email. Make sure you are
@@ -14,7 +14,7 @@ from PIL import Image
 
 LABEL = "<animal>"
 CAMERA = "<camera name>"
-TOKEN = "< bearer token>"
+TOKEN = "Bearer <token>"
 # use a photo on computer ex. home/user/.....
 FILE_PATH = "<local_filepath_to_image>"
 
