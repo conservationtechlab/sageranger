@@ -11,12 +11,13 @@ on the map.
 from post_monthly import post_monthly_obs
 TOKEN = "Bearer <token>"
 
+
 def main():
     """Tests creating an event
 
     This function uses global variables to
     call the post_montly_obs function. The
-    function prints the https 
+    function prints the https
     request response.
 
     """
