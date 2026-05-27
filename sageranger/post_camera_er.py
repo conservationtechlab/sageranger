@@ -1,4 +1,4 @@
-'''Post Camera ER
+"""Post Camera ER
 
 This module defines a script called post-camera which creates new cameras
 in Earthranger that shows up on the map and returns the id of the camera trap.
@@ -8,9 +8,7 @@ posts the camera traps as sources and subjects on Earthranger, and returns
 the source and subject id of the camera traps uploaded.
 
 Inputs:
-token: unique token for ER to authenticate http request, defined in config
-yml
-authorization: the other auth token for ER as defined in config yml, this
+authorization: the auth token for ER as defined in config yml, this
 was retrieved from the interactive api on ER
 https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
 csv: a csv file that contains camera name, longitude and latitude of the
@@ -24,7 +22,7 @@ delimiter. Use the following as a sample:
 Outputs:
 prints out the subject id and source id of the uploaded camera trap.
 
-'''
+"""
 
 from datetime import datetime
 import requests
