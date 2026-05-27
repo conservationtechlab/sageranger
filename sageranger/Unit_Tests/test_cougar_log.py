@@ -10,7 +10,7 @@ earthranger for the specifed camera.
 from post_cougar_log import is_target
 
 CAMERA = "<camera name>"
-TOKEN = "<bearer token>"
+TOKEN = "Bearer <token>"
 LABEL = "<animal>"  # ex. cougar, bobcat
 
 
