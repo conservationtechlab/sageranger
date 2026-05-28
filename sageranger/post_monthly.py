@@ -35,17 +35,19 @@ def post_monthly_obs(token, auth):
     response = requests.get(url_2, headers=hdr, timeout=10)
     response_json = response.json()
     results = response_json['data']
+    print("waht is happeninnggggg????:", response_json)
 
     for i in enumerate(results):
         i = i[0]
         if results[i]['subject_subtype'] == 'camera_trap':
             subject_id = results[i]['id']
             manu_id = results[i]['name']
-            print(manu_id)
+            print("###id: ",manu_id)
             url_3 = url_3 + subject_id + '/sources/'
             response = requests.get(url_3, headers=hdr, timeout=10)
             response_json = response.json()
-            if response_json['data'] != []:
+            print("??y no observe??:", response_json)
+            if response_json['status']['message'] != 'Not Found':
                 source_id = response_json['data'][0]['id']
                 data = {
                         "location": {"longitude": 0, "latitude": 0},
