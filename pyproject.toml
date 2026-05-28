@@ -6,19 +6,23 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sageranger"
-version = "1.0.5"
+dynamic = ["version"]
 description = "Package to aide in the utilization of Earthranger"
 readme = "README.md"
+
 authors = [
     { name = "Katie Garwood", email = "kgarwood@sdzwa.org" },
     { name = "Montserrat Jara", email = "jaramontse3@gmail.com" }
 ]
+
 license = { file = "LICENSE" }
+
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
+
 dependencies = [
     "requests>=2.25.0",
     "argparse",
@@ -27,6 +31,10 @@ dependencies = [
     "selenium",
     "pandas"
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "sagemic.__version__"}
+
 requires-python = ">=3.12"
 
 [project.optional-dependencies]
