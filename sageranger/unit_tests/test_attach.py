@@ -1,7 +1,7 @@
 """Tests Attach Images
 
 Usage:
-    python3 -m Unit_Tests.test_attach
+    python3 -m unit_tests.test_attach
 
 This function posts an event and takes the
 event ID to attach an email. Make sure you are
@@ -16,7 +16,7 @@ LABEL = "<animal>"
 CAMERA = "<camera name>"
 TOKEN = "Bearer <token>"
 # use a photo on computer ex. home/user/.....
-FILE_PATH = "<local_filepath_to_image>"
+FILE_PATH = "<path/to/test/img.jpg>"
 
 
 def main():

@@ -1,7 +1,7 @@
 """Tests camera locations
 
 Usage:
-    python3 -m Unit_Tests.test_locations
+    python3 -m unit_tests.test_locations
 
 Make sure you are testing from the sageranger
 root folder.

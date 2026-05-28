@@ -1,7 +1,7 @@
 """Test cougar log
 
 Usage:
-    python3 Unit_Tests.test_cougar_log
+    python3 unit_tests.test_cougar_log
 
 This function test creating observations in
 earthranger for the specifed camera.

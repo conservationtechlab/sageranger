@@ -1,7 +1,7 @@
 """Tests Post Monthly
 
 Usage:
-    python3 -m Unit_Tests.test_post_monthly
+    python3 -m unit_tests.test_post_monthly
 
 This function tests posting observations
 on earthranger monthly to keep cameras
