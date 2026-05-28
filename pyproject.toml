@@ -1,17 +1,38 @@
+# py-project.toml
+
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0.0". "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "sageranger"
-version = "1.0.4"
-description = ""
+version = "1.0.5"
+description = "Package to aide in the utilization of Earthranger"
+readme = "README.md"
+authors = [
+    { name = "Katie Garwood", email = "kgarwood@sdzwa.org" },
+    { name = "Montserrat Jara", email = "jaramontse3@gmail.com" }
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
 dependencies = [
-"requests>=2.25.0",
-"argparse",
-"schedule",
-"datetime",
-"selenium",
-"pandas"
+    "requests>=2.25.0",
+    "argparse",
+    "schedule",
+    "datetime",
+    "selenium",
+    "pandas"
 ]
 requires-python = ">=3.12"
+
+[project.optional-dependencies]
+dev = []
+
+[project.urls]
+Homepage = "https://github.com/conservationtechlab/sageranger"
+
+[project.scripts]
