@@ -9,7 +9,7 @@ import requests
 from sageranger.get_cam_location import cam_location
 
 
-def is_target(cam_name, token, authorization, label):
+def is_target(cam_name, authorization, label):
     '''Target animal historical log
 
     This function takes in the camera name and http api tokens only if
@@ -26,19 +26,18 @@ def is_target(cam_name, token, authorization, label):
         https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
     '''
     headers = {
-        'X-CSRFToken': token,
         'Authorization': authorization
         }
 
     current_time = datetime.utcnow()
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
-    cam, subject_id = cam_location(cam_name, token, authorization)
+    cam, subject_id = cam_location(cam_name, authorization)
     lat = cam[1]
     longi = cam[0]
     url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
     url += subject_id + '/sources/'
-    response = requests.get(url, headers=headers, timeout=10)
+    response = requests.get(url, headers=headers, timeout=20)
     response_json = response.json()
     source_id = response_json['data'][0]['id']
     url2 = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
@@ -53,4 +52,4 @@ def is_target(cam_name, token, authorization, label):
         [{"value": label, "label": "animal", "units": ""}],
         "additional": {"animal": label}}
 
-    requests.post(url2, headers=headers, json=payload, timeout=10)
+    requests.post(url2, headers=headers, json=payload, timeout=20)
