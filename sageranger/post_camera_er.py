@@ -37,10 +37,10 @@ hdr = {
 
 URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-df = pd.read_csv('/path/to/csv', delimiter=' ', header=0)
+df = pd.read_csv('/home/montse/sageranger/sageranger/camera_test.csv', delimiter=' ', header=0)
 cam = df.camera.tolist()
 lat = df.lat.tolist()
-longi = df.longi.tolist()
+long = df.long.tolist()
 
 for i in enumerate(cam):
     i = i[0]
@@ -64,7 +64,7 @@ for i in enumerate(cam):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [lat[i], longi[i]]}}
+                "coordinates": [lat[i], long[i]]}}
         }
 
     URL_2 = URL + 'subjects/'
@@ -79,7 +79,10 @@ for i in enumerate(cam):
         "model_name": cam[i],
         "additional": {},
         "provider": "cougar_vision",
-        "subject": subject_id,
+        "subject": {
+            "name": cam[i],
+            "subject_subtype": "camera_trap"
+        },
         "assigned_range": {}
     }
 
