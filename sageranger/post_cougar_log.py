@@ -37,7 +37,7 @@ def is_target(cam_name, authorization, label):
     longi = cam[0]
     url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
     url += subject_id + '/sources/'
-    response = requests.get(url, headers=headers, timeout=10)
+    response = requests.get(url, headers=headers, timeout=20)
     response_json = response.json()
     source_id = response_json['data'][0]['id']
     url2 = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
@@ -52,4 +52,4 @@ def is_target(cam_name, authorization, label):
         [{"value": label, "label": "animal", "units": ""}],
         "additional": {"animal": label}}
 
-    requests.post(url2, headers=headers, json=payload, timeout=10)
+    requests.post(url2, headers=headers, json=payload, timeout=20)

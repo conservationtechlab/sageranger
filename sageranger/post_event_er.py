@@ -2,8 +2,6 @@
 Post Event ER This module defines a function called post_event which creates a
 report in Earthranger that shows up on the map and returns the id that event.
 '''
-import json
-from datetime import datetime, timedelta
 import requests
 from sageranger.get_cam_location import cam_location
 
@@ -21,7 +19,7 @@ def post_event(label, cam_name, authorization):
     label: a string value of the animal that the image was classified as
     cam_name: a string of the specific name of the camera that the image came
     from as it also is in Earthranger
-    authorization: the other auth token for ER as defined in config
+    authorization: the auth token for ER as defined in config
     label: the name of the animal identified to be sent, used as title of jpeg
 
     Returns: the unique id of the event that was posted to be used to attach
@@ -32,6 +30,7 @@ def post_event(label, cam_name, authorization):
     Headers = {
       'Authorization': authorization
     }
+
     cam, subject_id = cam_location(cam_name, authorization)
     lat = cam[1]
     longi = cam[0]
@@ -57,7 +56,8 @@ def post_event(label, cam_name, authorization):
         ]
      }
     new_event = requests.post(
-               u_r_l, headers=Headers, json=event_data, timeout=10)
+               u_r_l, headers=Headers, json=event_data, timeout=20)
     response_json = new_event.json()
+    print(response_json['data']['id'])
 
     return response_json['data']['id']
