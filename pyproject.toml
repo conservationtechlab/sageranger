@@ -1,7 +1,7 @@
 # py-project.toml
 
 [build-system]
-requires = ["setuptools>=61.0.0". "wheel"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,15 +25,13 @@ classifiers = [
 
 dependencies = [
     "requests>=2.25.0",
-    "argparse",
     "schedule",
-    "datetime",
     "selenium",
     "pandas"
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "sagemic.__version__"}
+version = {attr = "sageranger.__version__"}
 
 requires-python = ">=3.12"
 
