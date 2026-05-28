@@ -8,8 +8,6 @@ posts the camera traps as sources and subjects on Earthranger, and returns
 the source and subject id of the camera traps uploaded.
 
 Inputs:
-token: unique token for ER to authenticate http request, defined in config
-yml
 authorization: the other auth token for ER as defined in config yml, this
 was retrieved from the interactive api on ER
 https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
@@ -30,18 +28,16 @@ from datetime import datetime
 import requests
 import pandas as pd
 
-token = input('input token: ')
 auth = input('input authorization: ')
 
 hdr = {
-    'X-CSRFToken': token,
     'Authorization': auth,
     'Accept': 'application/json'
     }
 
 URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-df = pd.read_csv('(put ur csv dir here)', delimiter=' ', header=0)
+df = pd.read_csv('/path/to/csv', delimiter=' ', header=0)
 cam = df.camera.tolist()
 lat = df.lat.tolist()
 longi = df.longi.tolist()
