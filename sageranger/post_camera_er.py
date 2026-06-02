@@ -113,3 +113,14 @@ for i in enumerate(cam):
     source_2 = response.json()
     print('source id: ' + source_2['data'][0]['id'])
     print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
+
+    data = {
+            "location": {"longitude": 0, "latitude": 0},
+            "recorded_at": formatted_time,
+            "source": source_id,
+             "device_status_properties":
+            [{"value": 'test', "label": "animal", "units": ""}],
+            "additional": {"animal": 'test'}
+            }
+    URL_5 = URL + 'observations/'
+    obs = requests.post(URL_5, headers=hdr, json=data, timeout=10)
