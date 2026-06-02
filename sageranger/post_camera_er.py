@@ -25,13 +25,15 @@ prints out the subject id and source id of the uploaded camera trap.
 '''
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import requests
 import pandas as pd
 
-auth = input('input authorization: ')
+
+#auth = input('input authorization: ')
 
 hdr = {
-    'Authorization': auth,
+    'Authorization': "",
     'Accept': 'application/json'
     }
 
@@ -40,38 +42,12 @@ URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 df = pd.read_csv('/home/montse/sageranger/sageranger/camera_test.csv', delimiter=' ', header=0)
 cam = df.camera.tolist()
 lat = df.lat.tolist()
-long = df.long.tolist()
+longi = df.longi.tolist()
 
 for i in enumerate(cam):
     i = i[0]
-    current_time = datetime.utcnow()
+    current_time = datetime.now(ZoneInfo("US/Pacific"))
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
-
-    payload = {
-        "content_type": "observations.subject",
-        "name": cam[i],
-        "subject_type": "stationary-object",
-        "subject_subtype": "camera_trap",
-        'created_at': formatted_time,
-        'updated_at': formatted_time,
-        "is_active": True,
-        "last_position_status": {
-            "last_voice_call_start_at": [],
-            "radio_state_at": [],
-            "radio_state": "na"},
-        "user": None,
-        "last_position": {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [lat[i], long[i]]}}
-        }
-
-    URL_2 = URL + 'subjects/'
-    subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
-    subject_js = subject.json()
-    subject_id = subject_js['data']['id']
-    print("\nsubject id: " + subject_id)
 
     payload = {
         "source_type": "seismic",
@@ -90,16 +66,49 @@ for i in enumerate(cam):
     source = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
     response_js = source.json()
     source_id = response_js['data']['id']
+    print("mmm", source_id)
 
     payload = {
+        "content_type": "observations.subject",
+        "name": cam[i],
+        "subject_type": "stationary-object",
+        "subject_subtype": "camera_trap",
+        "additional": {},
+        "created_at": formatted_time,
+        "updated_at": formatted_time,
+        "is_active": 1,
+        "last_position_status": {
+            "last_voice_call_start_at": [],
+            "radio_state_at": [],
+            "radio_state": "na"},
+        "user": 0,
+        "last_position": {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lat[i], longi[i]]}}
+        }
+
+    URL_2 = URL + 'subjects/'
+    subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
+    subject_js = subject.json()
+    print("PPPP",subject_js)
+    subject_id = subject_js['data']['id']
+    print("\nsubject id: " + subject_id)
+
+    payload = {
+        "assigned_range": {},
         "source": source_id,
-        "subject": subject_id,
-        "assigned_range": {}
+        "source_type": "tracking-device",
+        "additional": {},
+        "location":{
+        "latitude": lat[i],
+        "longitude": longi[i]
+        }
     }
 
-    URL_4 = URL + 'subject/'+subject_id+'/sources/'
+    URL_4 = URL + 'subject/'+ subject_id+'/sources/'
     requests.post(URL_4, headers=hdr, json=payload, timeout=10)
-
     response = requests.get(URL_4, headers=hdr, timeout=10)
     source_2 = response.json()
     print('source id: ' + source_2['data'][0]['id'])
