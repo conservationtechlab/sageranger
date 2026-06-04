@@ -24,16 +24,15 @@ prints out the subject id and source id of the uploaded camera trap.
 
 '''
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, UTC
 import requests
 import pandas as pd
 
 
-#auth = input('input authorization: ')
+auth = input('input authorization: ')
 
 hdr = {
-    'Authorization': "",
+    'Authorization': auth,
     'Accept': 'application/json'
     }
 
@@ -46,8 +45,10 @@ longi = df.longi.tolist()
 
 for i in enumerate(cam):
     i = i[0]
-    current_time = datetime.now(ZoneInfo("US/Pacific"))
+    current_time = datetime.now(UTC)
+    print("CHeck time", current_time)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+    print("formatted time:", formatted_time)
 
     payload = {
         "source_type": "seismic",
@@ -66,7 +67,6 @@ for i in enumerate(cam):
     source = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
     response_js = source.json()
     source_id = response_js['data']['id']
-    print("mmm", source_id)
 
     payload = {
         "content_type": "observations.subject",
@@ -77,22 +77,11 @@ for i in enumerate(cam):
         "created_at": formatted_time,
         "updated_at": formatted_time,
         "is_active": 1,
-        "last_position_status": {
-            "last_voice_call_start_at": [],
-            "radio_state_at": [],
-            "radio_state": "na"},
-        "user": 0,
-        "last_position": {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [lat[i], longi[i]]}}
         }
 
     URL_2 = URL + 'subjects/'
     subject = requests.post(URL_2, headers=hdr, json=payload, timeout=10)
     subject_js = subject.json()
-    print("PPPP",subject_js)
     subject_id = subject_js['data']['id']
     print("\nsubject id: " + subject_id)
 
@@ -111,8 +100,6 @@ for i in enumerate(cam):
     requests.post(URL_4, headers=hdr, json=payload, timeout=10)
     response = requests.get(URL_4, headers=hdr, timeout=10)
     source_2 = response.json()
-    print('source id: ' + source_2['data'][0]['id'])
-    print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
 
     data = {
             "location": {"longitude": 0, "latitude": 0},
@@ -124,3 +111,5 @@ for i in enumerate(cam):
             }
     URL_5 = URL + 'observations/'
     obs = requests.post(URL_5, headers=hdr, json=data, timeout=10)
+    print('source id: ' + source_2['data'][0]['id'])
+    print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
