@@ -32,7 +32,7 @@ import requests
 import pandas as pd
 
 
-auth = input('input authorization: ')
+auth = input('Input authorization: ')
 
 hdr = {
     'Authorization': auth,
@@ -49,10 +49,9 @@ longi = df.longi.tolist()
 for i in enumerate(cam):
     i = i[0]
     current_time = datetime.now(UTC)
-    print("CHeck time", current_time)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
-    print("formatted time:", formatted_time)
 
+    # first create a source 
     payload = {
         "source_type": "seismic",
         "manufacturer_id": cam[i],
@@ -71,6 +70,7 @@ for i in enumerate(cam):
     response_js = source.json()
     source_id = response_js['data']['id']
 
+    # Then create a subject
     payload = {
         "content_type": "observations.subject",
         "name": cam[i],
@@ -86,8 +86,8 @@ for i in enumerate(cam):
     subject = requests.post(URL_3, headers=hdr, json=payload, timeout=10)
     subject_js = subject.json()
     subject_id = subject_js['data']['id']
-    print("\nsubject id: " + subject_id)
 
+    # add the location (cannot add location when creating a subject)
     payload = {
         "assigned_range": {},
         "source": source_id,
@@ -104,6 +104,9 @@ for i in enumerate(cam):
     response = requests.get(URL_4, headers=hdr, timeout=10)
     source_2 = response.json()
 
+    # post a test observation to put camera on the map
+    # long/lat can be 0 because the location of the stationary
+    # object has already been set
     payload = {
             "location": {
                 "longitude": 0,
@@ -111,7 +114,7 @@ for i in enumerate(cam):
             "recorded_at": formatted_time,
             "source": source_id,
              "device_status_properties":[{
-                 "value": 'test', 
+                 "value": "test", 
                  "label": "animal", 
                  "units": ""}],
             "additional": {
@@ -120,5 +123,7 @@ for i in enumerate(cam):
     
     URL_5 = URL + 'observations/'
     obs = requests.post(URL_5, headers=hdr, json=payload, timeout=10)
-    print('source id: ' + source_2['data'][0]['id'])
-    print('camera trap ' + cam[i] + ' is uploaded to sagebrush\n')
+    
+    print("\nsubject id: " + subject_id)
+    print("source id: " + source_2['data'][0]['id'])
+    print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
