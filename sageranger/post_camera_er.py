@@ -106,12 +106,10 @@ for i in enumerate(cam):
     source_2 = response.json()
 
     # post a test observation to put camera on the map
-    # long/lat can be 0 because the location of the stationary
-    # object has already been set
     payload = {
             "location": {
-                "longitude": 0,
-                "latitude": 0
+                "longitude": lat[i],
+                "latitude": longi[i]
             },
             "recorded_at": formatted_time,
             "source": source_id,
