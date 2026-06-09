@@ -30,7 +30,7 @@ Outputs:
 from datetime import datetime, UTC
 import requests
 import pandas as pd
-
+from post_obs import post_observation
 
 auth = input('Input authorization: ')
 
@@ -41,7 +41,7 @@ hdr = {
 
 URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-df = pd.read_csv('/path/to/csv',
+df = pd.read_csv('/path/to/csv/',
                  delimiter=' ',
                  header=0)
 cam = df.camera.tolist()
@@ -89,7 +89,6 @@ for i in enumerate(cam):
     subject_js = subject.json()
     subject_id = subject_js['data']['id']
 
-    # add the location (cannot add location when creating a subject)
     payload = {
         "assigned_range": {},
         "source": source_id,
@@ -105,6 +104,13 @@ for i in enumerate(cam):
     response = requests.get(url_4, headers=hdr, timeout=10)
     source_2 = response.json()
 
+    post_observation(subject_id, "", hdr)
+
+    print("\nsubject id: " + subject_id)
+    print("source id: " + source_2['data'][0]['id'])
+    print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
+
+"""
     # post a test observation to put camera on the map
     payload = {
             "location": {
@@ -119,12 +125,11 @@ for i in enumerate(cam):
                  "units": ""
                  }],
             "additional": {
-                "animal": 'test'}
+                "animal": ""}
      }
 
     url_5 = URL + 'observations/'
     obs = requests.post(url_5, headers=hdr, json=payload, timeout=10)
+"""
 
-    print("\nsubject id: " + subject_id)
-    print("source id: " + source_2['data'][0]['id'])
-    print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
+   
