@@ -4,9 +4,10 @@ This module defines a function called is_target which adds an observation
 to a specific camera in Earthranger with time and the fact that an animal of
 interest was detected.
 '''
-from datetime import datetime
+from datetime import datetime, UTC
 import requests
-from sageranger.get_cam_location import cam_location
+#from sageranger.get_cam_location import cam_location
+from post_obs import post_observation
 
 
 def is_target(cam_name, token, authorization, label):
@@ -27,30 +28,18 @@ def is_target(cam_name, token, authorization, label):
     '''
     headers = {
         'X-CSRFToken': token,
-        'Authorization': authorization
-        }
+        'Authorization': authorization,
+        'Accept': 'application/json'
+    }
 
-    current_time = datetime.utcnow()
+    current_time = datetime.now(UTC)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
-    cam, subject_id = cam_location(cam_name, token, authorization)
-    lat = cam[1]
-    longi = cam[0]
-    url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
-    url += subject_id + '/sources/'
-    response = requests.get(url, headers=headers, timeout=10)
+    url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
+    
+    response = requests.get(url, headers=headers)
     response_json = response.json()
-    source_id = response_json['data'][0]['id']
-    url2 = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
+  
+    subject_id = response_json['data'][0]['id']
 
-    payload = {
-        "location": {
-            "longitude": longi,
-            "latitude": lat},
-        "recorded_at": formatted_time,
-        "source": source_id,
-        "device_status_properties":
-        [{"value": label, "label": "animal", "units": ""}],
-        "additional": {"animal": label}}
-
-    requests.post(url2, headers=headers, json=payload, timeout=10)
+    post_observation(subject_id, label, formatted_time, headers)
