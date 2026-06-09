@@ -41,7 +41,7 @@ hdr = {
 
 URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-df = pd.read_csv('/path/to/csv/',
+df = pd.read_csv('/path/to/csv',
                  delimiter=' ',
                  header=0)
 cam = df.camera.tolist()
@@ -104,7 +104,7 @@ for i in enumerate(cam):
     response = requests.get(url_4, headers=hdr, timeout=10)
     source_2 = response.json()
 
-    post_observation(subject_id, "", hdr)
+    post_observation(subject_id, "", formatted_time, hdr)
 
     print("\nsubject id: " + subject_id)
     print("source id: " + source_2['data'][0]['id'])
