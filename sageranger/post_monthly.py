@@ -8,6 +8,7 @@ active on sagebrush.
 '''
 from datetime import datetime, UTC
 import requests
+from post_obs import post_observation
 
 
 def post_monthly_obs(token, auth):
@@ -25,7 +26,6 @@ def post_monthly_obs(token, auth):
         'Authorization': auth,
         'Accept': 'application/json'
     }
-    url_1= 'https://sagebrush.pamdas.org/api/v1.0/observations/'
     url_2 = 'https://sagebrush.pamdas.org/api/v1.0/subjects/'
     url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
 
@@ -36,32 +36,22 @@ def post_monthly_obs(token, auth):
     response_json = response.json()
     results = response_json['data']
 
-    
     for i in enumerate(results):
         i = i[0]
         if results[i]['subject_subtype'] == 'camera_trap':
             subject_id = results[i]['id']
             manu_id = results[i]['name']
-            print("name: ", manu_id)
-            
+            print("name: ", manu_id, " id: ",subject_id)
 
             url_3 = url + subject_id + '/sources/' 
-            response = requests.get(url_3, headers=hdr, timeout=10)
+            response = requests.get(url_3, headers=hdr, timeout=20)
             response_json = response.json()
             # clear after every get request 
             url_3 = ''
 
             if (response_json['status']['message'] != 'Not Found' 
                 and response_json['data'] != []):
-                source_id = response_json['data'][0]['id']
-                data = {
-                        "location": {"longitude": 0, 
-                                     "latitude": 0},
-                        "recorded_at": formatted_time,
-                        "source": source_id,
-                        "device_status_properties":
-                        [{"value": "test", "label": "animal", "units": ""}],
-                        "additional": {}
-                        }
-                obs = requests.post(url_1, headers=hdr, json=data, timeout=10)
-                print(obs)
+                post_observation(subject_id, "", formatted_time, hdr)
+            else:
+               print("Invalid subject ID. The subject was not found or " \
+                    "contained no data.")
