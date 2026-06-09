@@ -44,6 +44,7 @@ URL = 'https://sagebrush.pamdas.org/api/v1.0/'
 df = pd.read_csv('/path/to/csv',
                  delimiter=' ',
                  header=0)
+
 cam = df.camera.tolist()
 lat = df.lat.tolist()
 longi = df.longi.tolist()
@@ -89,6 +90,7 @@ for i in enumerate(cam):
     subject_js = subject.json()
     subject_id = subject_js['data']['id']
 
+    # after subject is created add location
     payload = {
         "assigned_range": {},
         "source": source_id,
@@ -109,5 +111,3 @@ for i in enumerate(cam):
     print("\nsubject id: " + subject_id)
     print("source id: " + source_2['data'][0]['id'])
     print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
-
-   
