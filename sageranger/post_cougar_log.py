@@ -6,7 +6,6 @@ interest was detected.
 '''
 from datetime import datetime, UTC
 import requests
-#from sageranger.get_cam_location import cam_location
 from post_obs import post_observation
 
 
@@ -36,10 +35,10 @@ def is_target(cam_name, token, authorization, label):
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
-    
-    response = requests.get(url, headers=headers)
+
+    response = requests.get(url, headers=headers, timeout=10)
     response_json = response.json()
-  
+
     subject_id = response_json['data'][0]['id']
 
     post_observation(subject_id, label, formatted_time, headers)
