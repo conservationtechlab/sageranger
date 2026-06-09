@@ -110,26 +110,4 @@ for i in enumerate(cam):
     print("source id: " + source_2['data'][0]['id'])
     print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
 
-"""
-    # post a test observation to put camera on the map
-    payload = {
-            "location": {
-                "longitude": lat[i],
-                "latitude": longi[i]
-            },
-            "recorded_at": formatted_time,
-            "source": source_id,
-            "device_status_properties": [{
-                 "value": "test",
-                 "label": "animal",
-                 "units": ""
-                 }],
-            "additional": {
-                "animal": ""}
-     }
-
-    url_5 = URL + 'observations/'
-    obs = requests.post(url_5, headers=hdr, json=payload, timeout=10)
-"""
-
    
