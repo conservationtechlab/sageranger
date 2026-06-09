@@ -26,8 +26,9 @@ def post_monthly_obs(token, auth):
         'Authorization': auth,
         'Accept': 'application/json'
     }
-    url_2 = 'https://sagebrush.pamdas.org/api/v1.0/subjects/'
+
     url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
+    url_2 = 'https://sagebrush.pamdas.org/api/v1.0/subjects/'
 
     current_time = datetime.now(UTC)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
@@ -41,17 +42,17 @@ def post_monthly_obs(token, auth):
         if results[i]['subject_subtype'] == 'camera_trap':
             subject_id = results[i]['id']
             manu_id = results[i]['name']
-            print("name: ", manu_id, " id: ",subject_id)
+            print("name: ", manu_id, " id: ", subject_id)
 
-            url_3 = url + subject_id + '/sources/' 
+            url_3 = url + subject_id + '/sources/'
             response = requests.get(url_3, headers=hdr, timeout=20)
             response_json = response.json()
-            # clear after every get request 
+            # clear after every get request
             url_3 = ''
 
-            if (response_json['status']['message'] != 'Not Found' 
-                and response_json['data'] != []):
+            if (response_json['status']['message'] != 'Not Found'
+                    and response_json['data'] != []):
                 post_observation(subject_id, "", formatted_time, hdr)
             else:
-               print("Invalid subject ID. The subject was not found or " \
-                    "contained no data.")
+                print("Invalid subject ID. The subject was not found or "
+                      "contained no data.")
