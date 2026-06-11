@@ -40,7 +40,7 @@ def post_monthly_obs(token, auth, list_cam):
     for i in enumerate(cam_name):
         i = i[0]
 
-        # get subject_id from camera name 
+        # get subject_id from camera name
         url_cam = url_1 + cam_name[i]
         response = requests.get(url_cam, headers=hdr, timeout=10)
         response_json = response.json()
@@ -63,4 +63,4 @@ def post_monthly_obs(token, auth, list_cam):
             post_observation(subject_id, "", formatted_time, hdr)
         else:
             print("Invalid subject ID. The subject was not found or "
-                    "contained no data.")
+                  "contained no data.")
