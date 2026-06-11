@@ -30,6 +30,7 @@ import requests
 import pandas as pd
 from post_obs import post_observation
 
+
 def post_camera():  # pylint: disable=too-many-locals
     """Adds Cameras to csv list of camera traps"""
 
