@@ -103,7 +103,7 @@ def post_camera():  # pylint: disable=too-many-locals
                 "longitude": longi[i]}
         }
 
-        url_4 = url + 'subject/' + subject_id+'/sources/'
+        url_4 = url + 'subject/' + subject_id + '/sources/'
         requests.post(url_4, headers=hdr, json=payload, timeout=10)
 
         response = requests.get(url_4, headers=hdr, timeout=10)
