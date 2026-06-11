@@ -26,9 +26,9 @@ def is_target(cam_name, authorization, label):
         https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
     '''
     headers = {
-        'Authorization': authorization
+        'Authorization': authorization,
         'Accept': 'application/json'
-      }
+    }
 
     current_time = datetime.now(UTC)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
