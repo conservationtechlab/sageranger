@@ -16,7 +16,6 @@ def post_monthly_obs(token, auth, list_cam):
     This function gets the subject id of camera traps and posts observations
     onto earthranger
     Args:
-        token: the token for api calls in earthranger 'str'
         auth (str): token for api calls as specified in config yml 'str'
         list_cam (dict): dictionary of camera names and strikeforce_id
             from the config file
@@ -24,7 +23,6 @@ def post_monthly_obs(token, auth, list_cam):
     or not
     """
     hdr = {
-        'X-CSRFToken': token,
         'Authorization': auth,
         'Accept': 'application/json'
     }
@@ -39,7 +37,6 @@ def post_monthly_obs(token, auth, list_cam):
 
     for i in enumerate(cam_name):
         i = i[0]
-
         # get subject_id from camera name
         url_cam = url_1 + cam_name[i]
         response = requests.get(url_cam, headers=hdr, timeout=10)

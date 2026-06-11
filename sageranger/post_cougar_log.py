@@ -9,7 +9,7 @@ import requests
 from post_obs import post_observation
 
 
-def is_target(cam_name, token, authorization, label):
+def is_target(cam_name, authorization, label):
     '''Target animal historical log
 
     This function takes in the camera name and http api tokens only if
@@ -26,10 +26,9 @@ def is_target(cam_name, token, authorization, label):
         https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
     '''
     headers = {
-        'X-CSRFToken': token,
-        'Authorization': authorization,
+        'Authorization': authorization
         'Accept': 'application/json'
-    }
+      }
 
     current_time = datetime.now(UTC)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
