@@ -2,8 +2,7 @@
 Post Event ER This module defines a function called post_event which creates a
 report in Earthranger that shows up on the map and returns the id that event.
 '''
-import json
-from datetime import datetime, timedelta
+
 import requests
 from sageranger.get_cam_location import cam_location
 
