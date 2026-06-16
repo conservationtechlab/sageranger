@@ -1,14 +1,14 @@
-'''Attach Image ER
+"""Attach Image ER
 
 This module defines a function called attach_image that attaches the classified
 image with a bounding box, named according to the classified animal to an event
 in earthranger using the api.
-'''
+"""
 import requests
 
 
 def attach_image(event_id, img_byte, authorization, label):
-    '''Attach Image
+    """Attach Image
     This function attaches a classified and labeled image to an event in Earth-
     ranger as an alert system.
 
@@ -16,14 +16,14 @@ def attach_image(event_id, img_byte, authorization, label):
     event_id: the unique id provided by Earthranger to be able to associate
         an image here with an event alert previously created for for each
         image to be added
-    img_byte:the image to be posted in binary because that is how ER accepts it
+    img_byte: the image to be posted in binary because that is how ER accepts it
     authorization:the other auth token for Earthranger as defined in config yml
     , this was retrieved from the interactive api on ER
         https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
     label: the name of the animal identified to be sent, used as title of jpeg
 
     Returns:the http request response code to tell us if the call worked or not
-    '''
+    """
 
     url_var = 'https://sagebrush.pamdas.org/api/v1.0/activity/event/'
     url = url_var + event_id + '/files'
