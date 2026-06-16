@@ -28,7 +28,7 @@ Outputs:
 from datetime import datetime, UTC
 import requests
 import pandas as pd
-from post_obs import post_observation
+from sageranger.post_obs import post_observation
 
 
 def post_camera():  # pylint: disable=too-many-locals
