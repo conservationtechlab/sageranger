@@ -19,7 +19,7 @@ def post_monthly_obs(auth, list_cam):
         auth (str): token for api calls as specified in config yml 'str'
         list_cam (dict): dictionary of camera names and strikeforce_id
             from the config file
-    Returns: 
+    Returns:
         prints the http request response code to tell us if the call worked
              or not as well as camera name and subject id
     """
