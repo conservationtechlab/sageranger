@@ -20,9 +20,9 @@ def is_target(cam_name, authorization, label):
     Args:
         cam_name (str): a string of the specific name of the camera that image
             came from as it also is in Earthranger
-        token (str): unique token- ER to authenticate http request, defined in 
+        token (str): unique token- ER to authenticate http request, defined in
             config yml
-        authorization (str): other auth token for ER as defined in config yml, 
+        authorization (str): other auth token for ER as defined in config yml,
             this was retrieved from the interactive api on ER
             https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
     """
