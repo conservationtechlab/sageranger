@@ -1,4 +1,4 @@
-"""Tests Attach Images
+"""Tests post event
 
 Usage:
     python3 -m unit_tests.test_post
