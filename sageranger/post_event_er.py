@@ -17,18 +17,19 @@ def post_event(label, cam_name, authorization):
     correc goegraphical location on the Earthranger instance.
 
     Args:
-    label: a string value of the animal that the image was classified as
-    cam_name: a string of the specific name of the camera that the image came
-    from as it also is in Earthranger
-    authorization: the auth token for ER as defined in config
-    label: the name of the animal identified to be sent, used as title of jpeg
+        cam_name (str): a string of the specific name of the camera that the
+            image came from as it also is in Earthranger
+        authorization (str): the auth token for ER as defined in config
+        label (str): the name of the animal identified to be sent, used as
+            title of jpeg
 
-    Returns: the unique id of the event that was posted to be used to attach
+    Returns:
+        str: the unique id of the event that was posted to be used to attach
         an image to, event must be created before image is added
     """
     u_r_l = 'https://sagebrush.pamdas.org/api/v1.0/activity/events/'
 
-    Headers = {
+    headers = {
       'Authorization': authorization
     }
 
@@ -57,7 +58,7 @@ def post_event(label, cam_name, authorization):
         ]
      }
     new_event = requests.post(
-               u_r_l, headers=Headers, json=event_data, timeout=20)
+               u_r_l, headers=headers, json=event_data, timeout=20)
 
     response_json = new_event.json()
     print(response_json['data']['id'])

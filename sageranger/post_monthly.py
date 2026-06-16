@@ -8,10 +8,10 @@ active on sagebrush.
 """
 from datetime import datetime, UTC
 import requests
-from post_obs import post_observation
+from sageranger.post_obs import post_observation
 
 
-def post_monthly_obs(token, auth, list_cam):
+def post_monthly_obs(auth, list_cam):
     """post_monthly_obs
     This function gets the subject id of camera traps and posts observations
     onto earthranger
@@ -19,8 +19,9 @@ def post_monthly_obs(token, auth, list_cam):
         auth (str): token for api calls as specified in config yml 'str'
         list_cam (dict): dictionary of camera names and strikeforce_id
             from the config file
-    Returns: the http request response code to tell us if the call worked
-    or not
+    Returns:
+        prints the http request response code to tell us if the call worked
+             or not as well as camera name and subject id
     """
     hdr = {
         'Authorization': auth,
