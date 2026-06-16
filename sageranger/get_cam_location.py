@@ -16,12 +16,14 @@ def cam_location(cam_name, authorization):
     for it.
 
     Args:
-    cam_name:the name (B001, B002...) of the camera as it's in ER 'str'
-    authorization:another token for eathranger api calls as specified in config
-    yml'str'
+        cam_name (str):the name (B001, B002...) of the camera as it's in ER 'str'
+        authorization (str): token for eathranger api calls as specified in config
+            yml
 
-    Return: lat and longs of the camera location as a list and the unique id of
-    the camera in earthranger as a 'str' """
+    Return:
+        tuple (list, str) : lat and longs of the camera location as a list and the unique id of
+            the camera in earthranger as a 'str'
+      """
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
     headers = {
