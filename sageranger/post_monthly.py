@@ -11,7 +11,7 @@ import requests
 from post_obs import post_observation
 
 
-def post_monthly_obs(token, auth, list_cam):
+def post_monthly_obs(auth, list_cam):
     """post_monthly_obs
     This function gets the subject id of camera traps and posts observations
     onto earthranger
