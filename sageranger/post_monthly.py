@@ -8,7 +8,7 @@ active on sagebrush.
 """
 from datetime import datetime, UTC
 import requests
-from post_obs import post_observation
+from sageranger.post_obs import post_observation
 
 
 def post_monthly_obs(auth, list_cam):
