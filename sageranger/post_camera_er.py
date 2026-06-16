@@ -9,13 +9,13 @@ intial observation, and returns the source and subject id of the camera
 traps uploaded.
 
 Inputs:
-authorization: the auth token for ER as defined in config yml, this
-was retrieved from the interactive api on ER
-https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
-csv: a csv file that contains camera name, longitude and latitude of the
-camera trap with header ['camera', 'lat', 'long'] and white space as
-delimiter. Use the following as a sample:
-           camera lat long
+    authorization: the auth token for ER as defined in config yml, this
+        was retrieved from the interactive api on ER
+        https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
+    csv: a csv file that contains camera name, longitude and latitude of the
+    camera trap with header ['camera', 'lat', 'long'] and white space as
+    delimiter. Use the following as a sample:
+        camera lat long
            S010 0 0
            S020 0 0
            S030 0 0
