@@ -6,7 +6,7 @@ interest was detected.
 """
 from datetime import datetime, UTC
 import requests
-from post_obs import post_observation
+from sageranger.post_obs import post_observation
 
 
 def is_target(cam_name, authorization, label):
