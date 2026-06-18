@@ -1,16 +1,16 @@
-'''Post Animal of Interest Log
+"""Post Animal of Interest Log
 
 This module defines a function called is_target which adds an observation
 to a specific camera in Earthranger with time and the fact that an animal of
 interest was detected.
-'''
-from datetime import datetime
+"""
+from datetime import datetime, UTC
 import requests
-from sageranger.get_cam_location import cam_location
+from sageranger.post_obs import post_observation
 
 
-def is_target(cam_name, token, authorization, label):
-    '''Target animal historical log
+def is_target(cam_name, authorization, label):
+    """Target animal historical log
 
     This function takes in the camera name and http api tokens only if
     an animal of interest was detected, creates an observation for specific
@@ -18,39 +18,27 @@ def is_target(cam_name, token, authorization, label):
     backlog for each camera of all its target animal detections.
 
     Args:
-    cam_name: a string of the specific name of the camera that image came from
-        as it also is in Earthranger
-    token: unique token- ER to authenticate http request, defined in config yml
-    authorization: other auth token for ER as defined in config yml, this was
-        retrieved from the interactive api on ER
-        https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
-    '''
+        cam_name (str): a string of the specific name of the camera that image
+            came from as it also is in Earthranger
+        token (str): unique token- ER to authenticate http request, defined in
+            config yml
+        authorization (str): other auth token for ER as defined in config yml,
+            this was retrieved from the interactive api on ER
+            https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/
+    """
     headers = {
-        'X-CSRFToken': token,
-        'Authorization': authorization
-        }
+        'Authorization': authorization,
+        'Accept': 'application/json'
+    }
 
-    current_time = datetime.utcnow()
+    current_time = datetime.now(UTC)
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
-    cam, subject_id = cam_location(cam_name, token, authorization)
-    lat = cam[1]
-    longi = cam[0]
-    url = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
-    url += subject_id + '/sources/'
+    url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
+
     response = requests.get(url, headers=headers, timeout=10)
     response_json = response.json()
-    source_id = response_json['data'][0]['id']
-    url2 = 'https://sagebrush.pamdas.org/api/v1.0/observations/'
 
-    payload = {
-        "location": {
-            "longitude": longi,
-            "latitude": lat},
-        "recorded_at": formatted_time,
-        "source": source_id,
-        "device_status_properties":
-        [{"value": label, "label": "animal", "units": ""}],
-        "additional": {"animal": label}}
+    subject_id = response_json['data'][0]['id']
 
-    requests.post(url2, headers=headers, json=payload, timeout=10)
+    post_observation(subject_id, label, formatted_time, headers)
