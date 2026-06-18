@@ -1,4 +1,4 @@
-__version__ = "2.0.0"
+__version__ = "2.0.1.dev0"
 
 from sageranger.attach_image_er import attach_image
 from sageranger.get_cam_location import cam_location
