@@ -27,11 +27,11 @@ test_locations.py:
 ```
 python3 -m unit_tests.test_locations
 ```
-test post_monthly:
+test_post_monthly:
 ```
 python3 -m unit_tests.test_post_monthly
 ```
-test post_obs.py:
+test_post_obs.py:
 ```
 python3 -m unit_tests.test_post_obs
 ```
