@@ -9,7 +9,30 @@ pip install sageranger
 For use in cougarvision (visit readme) or for testing (see below) an authorization token is needed "Bearer <token>". Visit <your_instance>.pamdas.org/admin. Under Das Configuration in DAS Tokens add a new Das Acess Token. Set the expiration date and ensure the scope is 'read write'. We recommend the use of an online UUID generator to create a unique token. Once the above fields are filled save the token. This token can be used in the fetch and alert yaml in cougarvision or for testing purposes in the unit tests. 
 
 # Sageranger Functions
-Sageranger performs multiple functions such as posting events to earthranger, attaching images to events, creating camera sources and subjects, posting observations to camera subjects and retrieving camera coordinates and subject ids. post_camera_er.py uses a .csv containing camera data such as coordinates located on its local machine and posts an intial observation for each camera at their specified coordinates. post_event_er.py posts events of specified type(ex. "cougarvision_detection") to earhranger. post_event uses get_cam_locations.py for retrieveing camera coordinates and subject_id. post_cougar_log.py posts an observation with an animal of interest has been detected (ex. "cougar", "bobcat" ...). post_monthly.py is an optional function which posts empty observations to keep cameras visible on the earthranger map. post_obs.py is a supporting function which handles posting observations for the post_camera.py, post_monthly.py, and post_cougar_log.py functions. For more information about the earthranger api visit  <your_instance>.pamdas.org/interactive
+Sageranger performs multiple functions such as posting events to earthranger, attaching images to events, creating camera sources and subjects, posting observations to camera subjects and retrieving camera coordinates and subject ids.
+
+post_camera_er.py:
+Uses a .csv containing camera data such as coordinates and camera names. This csv is located on its local machine an posts. Post camera posts an intial observation for each camera at their specified coordinates to make cameras visible on the map.
+
+post_event_er.py:
+Posts events of specified type (ex. "cougarvision_detection") to earhranger. 
+
+attach_image_er.py:
+Attaches an image to an event given an image and event id.
+
+get_cam_locations.py:
+Retreives the coordinates and subject_id of the cameras.
+
+post_cougar_log.py:
+posts an observation with an animal of interest has been detected (ex. "cougar", "bobcat" ...).
+
+post_monthly.py:
+An optional function which posts empty observations to keep cameras visible on the earthranger map.
+
+post_obs.py:
+Is a supporting function which handles posting observations for the post_camera.py, post_monthly.py, and post_cougar_log.py functions. 
+
+For more information about the earthranger api visit  <your_instance>.pamdas.org/interactive
 
 
 # Testing
