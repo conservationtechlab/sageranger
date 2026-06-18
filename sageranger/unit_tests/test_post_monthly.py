@@ -10,6 +10,7 @@ on the map.
 
 from post_monthly import post_monthly_obs
 TOKEN = "Bearer <token>"
+LIST_CAM = "[list: of cam names]"
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
     request response.
 
     """
-    post_monthly_obs(TOKEN)
+    post_monthly_obs(TOKEN, LIST_CAM)
 
 
 if __name__ == "__main__":
