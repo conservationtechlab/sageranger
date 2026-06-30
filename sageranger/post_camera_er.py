@@ -35,6 +35,7 @@ def post_camera():  # pylint: disable=too-many-locals
     """Adds Cameras to csv list of camera traps"""
 
     auth = input('input authorization: ')
+    path_csv = input('input path to camera list csv: ')
 
     hdr = {
         'Authorization': auth,
@@ -43,7 +44,7 @@ def post_camera():  # pylint: disable=too-many-locals
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-    df = pd.read_csv('/path/to/csv',
+    df = pd.read_csv(path_csv,
                      delimiter=' ',
                      header=0)
 
@@ -114,3 +115,7 @@ def post_camera():  # pylint: disable=too-many-locals
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
         print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
+
+
+if __name__ == "__main__":
+    post_camera
