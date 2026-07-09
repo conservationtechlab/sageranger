@@ -1,4 +1,14 @@
+"""Unpack Info
 
+This module contains the logice for 
+unpacking the config file. It maps
+all the values from the config file 
+to the corressponding values in the 
+data class sensor_info. These functions
+are used in post_camera_er and in the repo
+cougarvision.
+
+"""
 import argparse
 import yaml
 from dataclasses import fields
