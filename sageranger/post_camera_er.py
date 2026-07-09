@@ -36,7 +36,6 @@ from sageranger.post_obs import post_observation
 def post_camera():  # pylint: disable=too-many-locals
     """Adds Cameras to csv list of camera traps"""
 
-    
     config = get_config_info(SensorInfo)
 
     hdr = {
@@ -113,14 +112,13 @@ def post_camera():  # pylint: disable=too-many-locals
         response = requests.get(url_4, headers=hdr, timeout=10)
         source_2 = response.json()
 
-
-        #get subject group id 
-        url_5 =  url +'/subjectgroups/?group_name=' + config.group_name
+        # get subject group id
+        url_5 = url + '/subjectgroups/?group_name=' + config.group_name
         response = requests.get(url_5, headers=hdr, timeout=20)
         response_json = response.json()
         group_id = response_json['data'][0]['id']
 
-        #post subject to subject group 
+        # post subject to subject group
         payload = [{
             "id": subject_id,
             "name": sen[i],
@@ -137,19 +135,17 @@ def post_camera():  # pylint: disable=too-many-locals
         response_json = subject.json()
 
         # get the id of the default subject group
-        url_7 =  url +'/subjectgroups/?group_name=Subjects'
+        url_7 = url + '/subjectgroups/?group_name=Subjects'
         response = requests.get(url_7, headers=hdr, timeout=20)
         response_json = response.json()
-        subject_default= response_json['data'][0]['id']
+        subject_default = response_json['data'][0]['id']
 
-        #delete from default subject group
+        # delete from default subject group
         url_8 = url + 'subjectgroup/' + subject_default + '/subjects'
-        _ = requests.delete(url_8, headers=hdr,json=payload, timeout=10)
-        #print("post?", response_json)    
-      
-        #post observation 
-        post_observation(subject_id, "", formatted_time, hdr)
+        _ = requests.delete(url_8, headers=hdr, json=payload, timeout=10)
 
+        # post observation
+        post_observation(subject_id, "", formatted_time, hdr)
 
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
