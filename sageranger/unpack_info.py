@@ -1,17 +1,17 @@
 """Unpack Info
 
-This module contains the logice for 
+This module contains the logice for
 unpacking the config file. It maps
-all the values from the config file 
-to the corressponding values in the 
+all the values from the config file
+to the corressponding values in the
 data class sensor_info. These functions
 are used in post_camera_er and in the repo
 cougarvision.
 
 """
 import argparse
-import yaml
 from dataclasses import fields
+import yaml
 
 
 def parse_args():
@@ -24,8 +24,9 @@ def parse_args():
         argsparse.Namespace: An object containing all parsed arguement
             values as attributes (e.g., args.CONFIG).
     """
-    parser = argparse.ArgumentParser(description='Retrieves information from' \
-                                    'config and posts events and observations')
+    parser = argparse.ArgumentParser(description='Retrieves information from'
+                                     'config and posts events '
+                                     'and observations')
     parser.add_argument('CONFIG', type=str, help='path to config file.')
 
     return parser.parse_args()
