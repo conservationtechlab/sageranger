@@ -1,0 +1,10 @@
+path_csv: /path/to/file.csv # locally stored on your machine
+event_type: '<type of event>'
+auth_token: 'Bearer <token>' # you must include bearer 
+source_type: 'seismic'
+provider: '<subject provider' # ex: cougarvision
+subject_subtype: <subject subtype> # ex: Camera Trap
+subject_type: 'stationary-object'
+content_type: 'observations.subject'
+source_type: 'tracking-device'
+group_name: '<subject group>' # ex: camera_trap
