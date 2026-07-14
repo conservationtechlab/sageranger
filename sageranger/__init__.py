@@ -8,3 +8,4 @@ from sageranger.post_monthly import post_monthly_obs
 from sageranger.post_camera_er import post_camera
 from sageranger.post_obs import post_observation
 from sageranger.unpack_info import parse_args, get_config_info
+from sageranger.sensor_class import SensorInfo 
