@@ -27,6 +27,5 @@ class SensorInfo:
     subject_subtype: str
     subject_type: str
     content_type: str
-    source_type: str
     group_name: str
     sensor_type: bool
