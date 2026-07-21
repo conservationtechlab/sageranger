@@ -8,4 +8,6 @@ subject_type: 'stationary-object'
 content_type: 'observations.subject'
 source_type: 'tracking-device'
 group_name: '<subject group>' # ex: camera_trap
-
+# change for sensor type
+# 1=camera 0= temp
+sensor_type: 0
