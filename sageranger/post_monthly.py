@@ -6,7 +6,7 @@ and uses an http request to post an empty observation with longitude and
 latitude (0,0) once every month with cougar vision to ensure the camera stays
 active on sagebrush.
 """
-from datetime import datetime, UTC
+from datetime import datetime
 import requests
 from sageranger.post_obs import post_observation
 
@@ -31,7 +31,7 @@ def post_monthly_obs(auth, list_cam):
     url_1 = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name='
     url_2 = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
 
-    current_time = datetime.now(UTC)
+    current_time = datetime.now()
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
     cam_name = list(list_cam.values())
