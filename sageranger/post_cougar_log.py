@@ -4,7 +4,7 @@ This module defines a function called is_target which adds an observation
 to a specific camera in Earthranger with time and the fact that an animal of
 interest was detected.
 """
-from datetime import datetime, UTC
+from datetime import datetime
 import requests
 from sageranger.post_obs import post_observation
 
@@ -31,7 +31,7 @@ def is_target(cam_name, authorization, label):
         'Accept': 'application/json'
     }
 
-    current_time = datetime.now(UTC)
+    current_time = datetime.now()
     formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + str(cam_name)
