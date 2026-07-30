@@ -25,7 +25,7 @@ Outputs:
 
 """
 
-from datetime import datetime, UTC
+from datetime import datetime
 import requests
 import pandas as pd
 from sageranger.post_obs import post_observation
@@ -53,7 +53,7 @@ def post_camera():  # pylint: disable=too-many-locals
 
     for i in enumerate(cam):
         i = i[0]
-        current_time = datetime.now(UTC)
+        current_time = datetime.now()
         formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
 
         # first create a source
