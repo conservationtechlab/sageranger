@@ -8,8 +8,8 @@ and post_monthly.
 """
 
 import requests
-from unpack_info import get_config_info
-from sensor_class import SensorInfo
+from sageranger.unpack_info import get_config_info
+from sageranger.sensor_class import SensorInfo
 
 
 def post_observation(subject_id, label, time, hdr):
