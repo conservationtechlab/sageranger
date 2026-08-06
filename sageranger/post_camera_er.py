@@ -54,7 +54,7 @@ def post_camera():  # pylint: disable=too-many-locals
     for i in enumerate(cam):
         i = i[0]
         current_time = datetime.now()
-        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
 
         # first create a source
         payload = {
