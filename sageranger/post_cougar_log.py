@@ -32,7 +32,7 @@ def is_target(cam_name, authorization, label):
     }
 
     current_time = datetime.now()
-    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + str(cam_name)
 
