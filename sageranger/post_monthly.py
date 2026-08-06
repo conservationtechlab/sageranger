@@ -32,7 +32,7 @@ def post_monthly_obs(auth, list_cam):
     url_2 = 'https://sagebrush.pamdas.org/api/v1.0/subject/'
 
     current_time = datetime.now()
-    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
 
     cam_name = list(list_cam.values())
 
