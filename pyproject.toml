@@ -35,7 +35,7 @@ dependencies = [
 version = {attr = "sageranger.__version__"}
 
 [tool.setuptools.package-data]
-my_package = ["*.yml"]
+sageranger = ["config/*.yml"]
 
 [project.optional-dependencies]
 dev = []
