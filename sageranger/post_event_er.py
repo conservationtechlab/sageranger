@@ -4,8 +4,9 @@ report in Earthranger that shows up on the map and returns the id that event.
 """
 
 import requests
+from datetime import datetime
 from sageranger.get_cam_location import cam_location
-
+from sageranger.post_obs import post_observation
 
 def post_event(label, cam_name, authorization):
 
@@ -37,6 +38,9 @@ def post_event(label, cam_name, authorization):
     lat = cam[1]
     longi = cam[0]
 
+    current_time = datetime.now()
+    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
+
     event_data = {
         "event_type": "cougarvision_detection",
         "priority": 100,
@@ -62,5 +66,10 @@ def post_event(label, cam_name, authorization):
 
     response_json = new_event.json()
     print(response_json['data']['id'])
+
+    # post observation
+    post_observation(subject_id, label, formatted_time,headers)
+
+
 
     return response_json['data']['id']
