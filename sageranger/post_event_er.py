@@ -71,5 +71,4 @@ def post_event(label, cam_name, authorization):
     post_observation(subject_id, label, formatted_time,headers)
 
 
-
     return response_json['data']['id']
