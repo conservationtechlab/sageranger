@@ -6,9 +6,8 @@ used by post cougar_log, post_camera,
 and post_monthly.
 
 """
-
-import requests
 import json
+import requests
 
 
 def post_observation(subject_id, label, time, hdr):
@@ -27,13 +26,11 @@ def post_observation(subject_id, label, time, hdr):
             https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/ )
 
     """
-   # config = get_config_info(0, SensorInfo)
-
     url = 'https://sagebrush.pamdas.org/api/v1.0/'
 
     json_file = 'camera.json'  # can change to different sensors
 
-    with open(json_file, 'r') as  file:
+    with open(json_file, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     if json_file == 'camera.json':
@@ -54,7 +51,7 @@ def post_observation(subject_id, label, time, hdr):
             "device_status_properties"],
         "additional": data["additional"]
         }
-    
+
     url_5 = url + 'observations/'
     obs = requests.post(url_5, headers=hdr, json=payload, timeout=20)
     print("Observation response: ", obs)
