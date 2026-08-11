@@ -34,9 +34,6 @@ dependencies = [
 [tool.setuptools.dynamic]
 version = {attr = "sageranger.__version__"}
 
-[tool.setuptools.package-data]
-sageranger = ["config/*.yml"]
-
 [project.optional-dependencies]
 dev = []
 
