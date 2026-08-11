@@ -33,7 +33,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def get_config_info(config_time, class_type):
+def get_config_info(class_type):
     """Parses through config file.
 
     This function maps values to the dataclasses
@@ -51,13 +51,9 @@ def get_config_info(config_time, class_type):
         dict: unpacked and mapped values to
             class type
     """
-    if config_time:  # at runtime(1)
-        args = parse_args()
-        config_path = args.CONFIG
-    else:  # in pkg (0)
-         pkg_files = resources.files("sageranger")
-         config_path = pkg_files/"config"/"sensor_data.yml"
-                
+
+    args = parse_args()
+    config_path = args.CONFIG
 
     with open(config_path, 'r', encoding='utf-8') as file:
         config_dict = yaml.safe_load(file)
