@@ -8,6 +8,7 @@ and post_monthly.
 """
 import json
 import requests
+import importlib.resources as pkg_resources
 
 
 def post_observation(subject_id, label, time, hdr):
@@ -30,7 +31,10 @@ def post_observation(subject_id, label, time, hdr):
 
     json_file = 'camera.json'  # can change to different sensors
 
-    with open(json_file, 'r', encoding='utf-8') as file:
+    path_to_json = pkg_resources.files("sageranger").joinpath(json_file)
+
+
+    with path_to_json.open('r', encoding='utf-8') as file:
         data = json.load(file)
 
     if json_file == 'camera.json':
