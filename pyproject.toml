@@ -34,6 +34,9 @@ dependencies = [
 [tool.setuptools.dynamic]
 version = {attr = "sageranger.__version__"}
 
+[tool.setuptools.package-data]
+sageranger = ["data/*.json"]
+
 [project.optional-dependencies]
 dev = []
 
