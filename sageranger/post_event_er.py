@@ -8,6 +8,7 @@ from datetime import datetime
 from sageranger.get_cam_location import cam_location
 from sageranger.post_obs import post_observation
 
+
 def post_event(label, cam_name, authorization):
 
     """Post Event
@@ -68,7 +69,6 @@ def post_event(label, cam_name, authorization):
     print(response_json['data']['id'])
 
     # post observation
-    post_observation(subject_id, label, formatted_time,headers)
-
+    post_observation(subject_id, label, formatted_time, headers)
 
     return response_json['data']['id']
