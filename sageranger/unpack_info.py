@@ -11,7 +11,6 @@ cougarvision.
 """
 import argparse
 from dataclasses import fields
-from importlib import resources
 import yaml
 
 
@@ -42,10 +41,6 @@ def get_config_info(class_type):
     Args:
         class_type (str): get info has two dataclasses
             config info and display info
-        config_time (bool): This value dictates if the 
-            config values will be read from a config file
-            at runtime or will be read from a file within
-            a package.
 
     Return:
         dict: unpacked and mapped values to
