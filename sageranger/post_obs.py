@@ -7,11 +7,12 @@ and post_monthly.
 
 """
 import json
+from importlib import resources
 import requests
-import importlib.resources as resources
 
 
 def post_observation(subject_id, label, time, hdr):
+    # pylint: disable=too-many-locals
     """ Post Observation
 
     This function posts an observation using the subject_id,
@@ -32,7 +33,6 @@ def post_observation(subject_id, label, time, hdr):
     json_file = 'camera.json'  # can change to different sensors
 
     path_to_json = resources.files("sageranger").joinpath(json_file)
-
 
     with path_to_json.open('r', encoding='utf-8') as file:
         data = json.load(file)
