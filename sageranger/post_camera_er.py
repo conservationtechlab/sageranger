@@ -30,7 +30,6 @@ import requests
 import pandas as pd
 from sageranger.unpack_info import get_config_info
 from sageranger.sensor_class import SensorInfo
-from sageranger.post_obs import post_observation
 
 
 def post_camera():  # pylint: disable=too-many-locals
@@ -46,7 +45,7 @@ def post_camera():  # pylint: disable=too-many-locals
     url = 'https://sagebrush.pamdas.org/api/v1.0/'
 
     df = pd.read_csv(config.path_csv,
-                     delimiter=' ',
+                     delimiter=',',
                      header=0)
 
     sen = df.sensor.tolist()
@@ -56,7 +55,7 @@ def post_camera():  # pylint: disable=too-many-locals
     for i in enumerate(sen):
         i = i[0]
         current_time = datetime.now(UTC)
-        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'z'
 
         # first create a source
         payload = {
@@ -143,9 +142,6 @@ def post_camera():  # pylint: disable=too-many-locals
         # delete from default subject group
         url_8 = url + 'subjectgroup/' + subject_default + '/subjects'
         _ = requests.delete(url_8, headers=hdr, json=payload, timeout=10)
-
-        # post observation
-        post_observation(subject_id, "", formatted_time, hdr)
 
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
