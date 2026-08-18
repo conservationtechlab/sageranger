@@ -28,4 +28,3 @@ class SensorInfo:
     subject_type: str
     content_type: str
     group_name: str
-    sensor_type: bool
