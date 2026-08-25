@@ -36,7 +36,6 @@ def post_event(label, cam_name, authorization):
     cam, subject_id = cam_location(cam_name, authorization)
     lat = cam[1]
     longi = cam[0]
-    print("LAT LONG ?!?!?!", lat, longi)
 
     event_data = {
         "event_type": "cougarvision_detection",
@@ -62,6 +61,6 @@ def post_event(label, cam_name, authorization):
                u_r_l, headers=headers, json=event_data, timeout=20)
 
     response_json = new_event.json()
-    print(response_json['data']['id'])
+    print(response_json)
 
     return response_json['data']['id']
