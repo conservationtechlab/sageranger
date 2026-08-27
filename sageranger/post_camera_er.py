@@ -25,7 +25,7 @@ Outputs:
 
 Usage:
     from the root directory run the following:
-        python sageranger/post_camera_er.py config/sensor_info.yml 
+        python sageranger/post_camera_er.py config/sensor_info.yml
 
 """
 
@@ -154,4 +154,3 @@ def post_camera():  # pylint: disable=too-many-locals
 
 if __name__ == "__main__":
     post_camera()
-
