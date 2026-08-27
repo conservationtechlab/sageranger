@@ -32,7 +32,8 @@ def post_observation(subject_id, label, time, hdr):
 
     json_file = 'camera.json'  # can change to different sensors
 
-    path_to_json = resources.files("sageranger")/ "observation_payloads" / json_file
+    path_to_json = resources.files(
+                   "sageranger") / "observation_payloads" / json_file
 
     with path_to_json.open('r', encoding='utf-8') as file:
         data = json.load(file)
