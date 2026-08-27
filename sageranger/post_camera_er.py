@@ -23,6 +23,10 @@ Inputs:
 Outputs:
     prints out the subject id and source id of the uploaded camera trap.
 
+Usage:
+    from the root directory run the following:
+        python sageranger/post_camera_er.py config/sensor_info.yml 
+
 """
 
 from datetime import datetime, UTC
@@ -146,3 +150,8 @@ def post_camera():  # pylint: disable=too-many-locals
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
         print("sensor " + str(sen[i]) + " is uploaded to sagebrush\n")
+
+
+if __name__ == "__main__":
+    post_camera()
+
