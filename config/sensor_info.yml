@@ -1,4 +1,4 @@
-path_csv: /path/to/file.csv # locally stored on your machine
+path_csv: /path/to/example_subject_post.csv # locally stored on your machine
 event_type: '<type of event>'
 auth_token: 'Bearer <token>' # you must include bearer 
 provider: '<subject provider' # ex: cougarvision
