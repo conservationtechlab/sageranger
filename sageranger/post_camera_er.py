@@ -155,6 +155,5 @@ def post_camera():  # pylint: disable=too-many-locals
         post_observation(subject_id, "", formatted_time, hdr)
 
 
-
 if __name__ == "__main__":
     post_camera()
