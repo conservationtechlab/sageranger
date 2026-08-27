@@ -34,6 +34,7 @@ import requests
 import pandas as pd
 from sageranger.unpack_info import get_config_info
 from sageranger.sensor_class import SensorInfo
+from sageranger.post_obs import post_observation
 
 
 def post_camera():  # pylint: disable=too-many-locals
@@ -150,6 +151,9 @@ def post_camera():  # pylint: disable=too-many-locals
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
         print("sensor " + str(sen[i]) + " is uploaded to sagebrush\n")
+
+        post_observation(subject_id, "", formatted_time, hdr)
+
 
 
 if __name__ == "__main__":
