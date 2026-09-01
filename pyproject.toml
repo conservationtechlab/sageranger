@@ -31,8 +31,14 @@ dependencies = [
     "pandas"
 ]
 
+[tool.setuptools.packages.find]
+include = ["sageranger*"]
+
 [tool.setuptools.dynamic]
 version = {attr = "sageranger.__version__"}
+
+[tool.setuptools.package-data]
+"*" = ["*.json"]
 
 [project.optional-dependencies]
 dev = []
