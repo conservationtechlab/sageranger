@@ -6,7 +6,7 @@ Installation:
 pip install sageranger
 ```
 # Additional Setup
-For use in cougarvision (visit readme) or for testing (see below) an authorization token is needed "Bearer <token>". Visit <your_instance>.pamdas.org/admin. Under Das Configuration in DAS Tokens add a new Das Acess Token. Set the expiration date and ensure the scope is 'read write'. We recommend the use of an online UUID generator to create a unique token. Once the above fields are filled save the token. This token can be used in the fetch and alert yaml in cougarvision or for testing purposes in the unit tests. 
+For use in cougarvision (visit readme) or for testing (see below) an authorization token is needed "Bearer <token>". Visit <your_instance>.pamdas.org/admin. Under Das Configuration in DAS Tokens add a new Das Acess Token. Set the expiration date and ensure the scope is 'read write'. We recommend the use of an online UUID generator to create a unique token. Once the above fields are filled save the token. This token can be used in the fetch and alert yaml in cougarvision or for testing purposes in the unit tests. To use the 'post_camera_er' script to post sensors with their corresponding locations on earthranger, the config file 'sensor_info' must be completed with the authorization token and subject details. Addtionally a csv with camera names and coordinates must be provided see 'camera_test' in the config folder for an example of the expected format.
 
 # sageranger Functions
 Sageranger performs multiple functions such as posting events to earthranger, attaching images to events, creating camera sources and subjects, posting observations to camera subjects and retrieving camera coordinates and subject ids.
