@@ -12,7 +12,8 @@ For use in cougarvision (visit readme) or for testing (see below) an authorizati
 Sageranger performs multiple functions such as posting events to earthranger, attaching images to events, creating camera sources and subjects, posting observations to camera subjects and retrieving camera coordinates and subject ids.
 
 post_camera_er.py:
-Uses a csv containing camera data such as coordinates and camera names. This csv is located on your local machine. Post camera posts an intial observation for each camera at their specified coordinates to make cameras visible on the map.
+Uses a csv containing camera data such as coordinates and camera names. This csv is located on your local machine. Post camera posts an intial observation for each camera at their specified coordinates to make cameras visible on the map. Post camera also uses a config file to fill subject
+details.
 
 post_event_er.py:
 Posts events of specified type (ex. "cougarvision_detection") to earthranger. 
@@ -61,3 +62,10 @@ test_post.py
 ```
 python3 -m unit_tests.test_post
 ```
+
+# Working with different Sensors
+
+Sageranger can post different sensor types to earthranger using the 'post_camera_er' script. To modify the script to a specific sensor
+clone the repository. Modify the 'sensor_info' file to match the desired subject details. Ensure that each field had been filled out correctly
+by visting the ineractive website or by visiting your admin page to check subject details. Additionally, in the 'post_obs' script the defualt payload 
+uses the 'camera.json' file found in the observation_payloads folder. To modify this payload create a new json file in this folder containing the information for device status properties and additional information specific to the sensor see 'camera.json' and 'temp.json' as a reference guide. After creating the file update the line 'json_file = camera.json' with the name of the newly created file. After updating the config file, sensor json, and the post_obs script run the post_camer_er script to post the sensors to earthranger.
