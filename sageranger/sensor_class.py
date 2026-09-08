@@ -28,3 +28,4 @@ class SensorInfo:
     subject_type: str
     content_type: str
     group_name: str
+    red_node: bool
