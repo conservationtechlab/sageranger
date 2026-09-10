@@ -166,6 +166,8 @@ def create_flow(list_of_sensors, token):
         toke (str): Authorization token from earthranger
 
     """
+
+    print("Creating red node flow.")
     count = 0
     branches = []
 
@@ -181,7 +183,6 @@ def create_flow(list_of_sensors, token):
         sub_id = sensor[1]
         lat = sensor[2]
         long = sensor[3]
-
         start_node, new_branch = create_branch(device_name,
                                                sub_id,
                                                (lat, long),
@@ -196,4 +197,5 @@ def create_flow(list_of_sensors, token):
     with open("final_flow.json", "w", encoding='utf-8') as f:
         json.dump((base + branches), f, indent=2)
 
+    print("Json for red node flow created.")
 
