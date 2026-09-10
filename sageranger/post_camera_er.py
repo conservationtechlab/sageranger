@@ -28,13 +28,14 @@ Usage:
         python sageranger/post_camera_er.py config/sensor_info.yml
 
 """
-
+import json
 from datetime import datetime, UTC
 import requests
 import pandas as pd
 from sageranger.unpack_info import get_config_info
 from sageranger.sensor_class import SensorInfo
 from sageranger.post_obs import post_observation
+from sageranger.create_flow import create_flow
 
 
 def post_camera():  # pylint: disable=too-many-locals
@@ -57,10 +58,12 @@ def post_camera():  # pylint: disable=too-many-locals
     lat = df.lat.tolist()
     longi = df.longi.tolist()
 
+    list_of_sensors = []
+
     for i in enumerate(sen):
         i = i[0]
         current_time = datetime.now(UTC)
-        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'z'
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') +'z'
 
         # first create a source
         payload = {
@@ -153,6 +156,12 @@ def post_camera():  # pylint: disable=too-many-locals
         print("sensor " + str(sen[i]) + " is uploaded to sagebrush\n")
 
         post_observation(subject_id, "", formatted_time, hdr)
+
+        list_of_sensors.append((sen[i], source_id, lat[i], longi[i]))
+
+    if config.red_node:
+        create_flow(list_of_sensors, config.auth_token)
+
 
 
 if __name__ == "__main__":
