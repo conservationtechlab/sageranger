@@ -28,7 +28,6 @@ Usage:
         python sageranger/post_camera_er.py config/sensor_info.yml
 
 """
-import json
 from datetime import datetime, UTC
 import requests
 import pandas as pd
@@ -63,7 +62,7 @@ def post_camera():  # pylint: disable=too-many-locals
     for i in enumerate(sen):
         i = i[0]
         current_time = datetime.now(UTC)
-        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') +'z'
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'z'
 
         # first create a source
         payload = {
@@ -161,7 +160,6 @@ def post_camera():  # pylint: disable=too-many-locals
 
     if config.red_node:
         create_flow(list_of_sensors, config.auth_token)
-
 
 
 if __name__ == "__main__":
