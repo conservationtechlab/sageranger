@@ -24,13 +24,14 @@ def main():
 
     """
     try:
-        event_id = post_event(LABEL,CAMERA, TOKEN)
+        event_id = post_event(LABEL, CAMERA, TOKEN)
         print("Post successful Event_ID:", event_id)
-        
+
     except KeyError:
         print("Key Error invalid authorization.")
     except IndexError:
         print("Index Error incorrect or nonexistent camera name.")
+
 
 if __name__ == "__main__":
     main()
