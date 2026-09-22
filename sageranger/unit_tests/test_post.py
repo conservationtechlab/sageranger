@@ -11,7 +11,7 @@ the sageranger root folder.
 from post_event_er import post_event
 
 LABEL = "<animal>"
-CAMERA = "<camera name>"
+CAMERA = "<camera_name>"
 TOKEN = "Bearer <token>"
 
 
@@ -23,10 +23,14 @@ def main():
     prints the event id.
 
     """
-
-    event_id = post_event(LABEL,CAMERA, TOKEN)
-    print("Event_ID:", event_id)
-
+    try:
+        event_id = post_event(LABEL,CAMERA, TOKEN)
+        print("Post successful Event_ID:", event_id)
+        
+    except KeyError:
+        print("Key Error invalid authorization.")
+    except IndexError:
+        print("Index Error incorrect or nonexistent camera name.")
 
 if __name__ == "__main__":
     main()
