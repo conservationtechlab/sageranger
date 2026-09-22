@@ -10,7 +10,7 @@ on the map.
 
 from post_monthly import post_monthly_obs
 TOKEN = "Bearer <token>"
-LIST_CAM = "[list: of cam names]"
+LIST_CAM = {'<list of cameras>'}  # expected formatt {'sf_id: '<camera name>'}
 
 
 def main():
@@ -22,7 +22,15 @@ def main():
     request response.
 
     """
-    post_monthly_obs(TOKEN, LIST_CAM)
+
+    try:
+        post_monthly_obs(TOKEN, LIST_CAM)
+    except KeyError:
+        print("Invalid Authorization.")
+    except IndexError:
+        print("Incorrect Camera names.")
+    except AttributeError:
+        print("Incorrect value type expected a dictionary type.")
 
 
 if __name__ == "__main__":
