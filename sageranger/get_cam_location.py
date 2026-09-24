@@ -26,7 +26,8 @@ def cam_location(cam_name, authorization):
             and the unique id of the camera in earthranger as a 'str'
       """
 
-    url = 'https://sagebrush.pamdas.org/api/v1.0/subjects/?name=' + cam_name
+    url = ('https://sagebrush.pamdas.org/api/v1.0/subjects/?name='
+           + str(cam_name))
     headers = {
         'Authorization': authorization,
         'Accept': 'application/json'

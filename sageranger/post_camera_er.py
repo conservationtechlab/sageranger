@@ -23,49 +23,55 @@ Inputs:
 Outputs:
     prints out the subject id and source id of the uploaded camera trap.
 
+Usage:
+    from the root directory run the following:
+        python sageranger/post_camera_er.py config/sensor_info.yml
+
 """
 
 from datetime import datetime, UTC
 import requests
 import pandas as pd
+from sageranger.unpack_info import get_config_info
+from sageranger.sensor_class import SensorInfo
 from sageranger.post_obs import post_observation
 
 
 def post_camera():  # pylint: disable=too-many-locals
     """Adds Cameras to csv list of camera traps"""
 
-    auth = input('input authorization: ')
+    config = get_config_info(SensorInfo)
 
     hdr = {
-        'Authorization': auth,
+        'Authorization': config.auth_token,
         'Accept': 'application/json'
         }
 
     url = 'https://sagebrush.pamdas.org/api/v1.0/'
 
-    df = pd.read_csv('/path/to/csv',
-                     delimiter=' ',
+    df = pd.read_csv(config.path_csv,
+                     delimiter=',',
                      header=0)
 
-    cam = df.camera.tolist()
+    sen = df.sensor.tolist()
     lat = df.lat.tolist()
     longi = df.longi.tolist()
 
-    for i in enumerate(cam):
+    for i in enumerate(sen):
         i = i[0]
         current_time = datetime.now(UTC)
-        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+        formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'z'
 
         # first create a source
         payload = {
-            "source_type": "seismic",
-            "manufacturer_id": cam[i],
-            "model_name": cam[i],
+            "source_type": config.source_type,
+            "manufacturer_id": sen[i],
+            "model_name": sen[i],
             "additional": {},
-            "provider": "cougar_vision",
+            "provider": config.provider,
             "subject": {
-                "name": cam[i],
-                "subject_subtype": "camera_trap"
+                "name": sen[i],
+                "subject_subtype": config.subject_subtype
             },
             "assigned_range": {}
         }
@@ -73,14 +79,15 @@ def post_camera():  # pylint: disable=too-many-locals
         url_2 = url + 'sources/'
         source = requests.post(url_2, headers=hdr, json=payload, timeout=10)
         response_js = source.json()
+        # print(response_js)
         source_id = response_js['data']['id']
 
         # Then create a subject
         payload = {
-            "content_type": "observations.subject",
-            "name": cam[i],
-            "subject_type": "stationary-object",
-            "subject_subtype": "camera_trap",
+            "content_type": config.content_type,
+            "name": sen[i],
+            "subject_type": config.subject_type,
+            "subject_subtype": config.subject_subtype,
             "additional": {},
             "created_at": formatted_time,
             "updated_at": formatted_time,
@@ -96,7 +103,7 @@ def post_camera():  # pylint: disable=too-many-locals
         payload = {
             "assigned_range": {},
             "source": source_id,
-            "source_type": "tracking-device",
+            "source_type": config.source_type,
             "additional": {},
             "location": {
                 "latitude": lat[i],
@@ -109,8 +116,44 @@ def post_camera():  # pylint: disable=too-many-locals
         response = requests.get(url_4, headers=hdr, timeout=10)
         source_2 = response.json()
 
-        post_observation(subject_id, "", formatted_time, hdr)
+        # get subject group id
+        url_5 = url + '/subjectgroups/?group_name=' + config.group_name
+        response = requests.get(url_5, headers=hdr, timeout=20)
+        response_json = response.json()
+        group_id = response_json['data'][0]['id']
+
+        # post subject to subject group
+        payload = [{
+            "id": subject_id,
+            "name": sen[i],
+            "subject_type": config.subject_type,
+            "subject_subtype": config.subject_subtype,
+            "additional": {},
+            "created_at": formatted_time,
+            "updated_at": formatted_time,
+            "is_active": 1,
+            }]
+
+        url_6 = url + 'subjectgroup/' + group_id + '/subjects'
+        subject = requests.post(url_6, headers=hdr, json=payload, timeout=10)
+        response_json = subject.json()
+
+        # get the id of the default subject group
+        url_7 = url + '/subjectgroups/?group_name=Subjects'
+        response = requests.get(url_7, headers=hdr, timeout=20)
+        response_json = response.json()
+        subject_default = response_json['data'][0]['id']
+
+        # delete from default subject group
+        url_8 = url + 'subjectgroup/' + subject_default + '/subjects'
+        _ = requests.delete(url_8, headers=hdr, json=payload, timeout=10)
 
         print("\nsubject id: " + subject_id)
         print("source id: " + source_2['data'][0]['id'])
-        print("camera trap " + cam[i] + " is uploaded to sagebrush\n")
+        print("sensor " + str(sen[i]) + " is uploaded to sagebrush\n")
+
+        post_observation(subject_id, "", formatted_time, hdr)
+
+
+if __name__ == "__main__":
+    post_camera()
