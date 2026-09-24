@@ -24,9 +24,12 @@ def main():
     in earthranger.
 
     """
-
-    is_target(CAMERA, TOKEN, LABEL)
-
+    try:
+        is_target(CAMERA, TOKEN, LABEL)
+    except KeyError:
+        print("Invalid Authorization.")
+    except IndexError:
+        print("Invalid or non existent camera name.")
 
 if __name__ == "__main__":
     main()
