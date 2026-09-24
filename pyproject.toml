@@ -10,20 +10,16 @@ dynamic = ["version"]
 requires-python = ">=3.11"
 description = "Package to aide in the utilization of Earthranger"
 readme = "README.md"
-
 authors = [
     { name = "Katie Garwood", email = "kgarwood@sdzwa.org" },
     { name = "Montserrat Jara", email = "jaramontse3@gmail.com" }
 ]
-
 license = { file = "LICENSE" }
-
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-
 dependencies = [
     "requests>=2.25.0",
     "schedule",

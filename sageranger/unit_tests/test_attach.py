@@ -14,7 +14,7 @@ from PIL import Image
 
 LABEL = "<animal>"
 CAMERA = "<camera name>"
-TOKEN = "Bearer cougarvision_tests"
+TOKEN = "Bearer <token>"
 # use a photo on computer ex. home/user/.....
 FILE_PATH = "<path/to/test/img.jpg>"
 
