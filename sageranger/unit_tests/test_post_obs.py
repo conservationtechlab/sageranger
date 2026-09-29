@@ -7,13 +7,13 @@ This function tests posting observations
 function
 """
 
-from datetime import datetime, UTC
+import datetime
 from post_obs import post_observation
 from get_cam_location import cam_location
 
 TOKEN = "Bearer <token>"
-CAM_NAME = "<cam_name>"  # ex: "COEX100"..
-LABEL = "<label>"  # ex: "cougar", "bobcat"...
+CAM_NAME = "<camera name>"  # ex: "COEX 100"..
+LABEL = "<animal>"  # ex: "cougar", "bobcat"...
 
 
 def main():
@@ -29,11 +29,16 @@ def main():
         'Authorization': TOKEN,
         'Accept': 'application/json'
     }
-    current_time = datetime.now(UTC)
-    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f') + 'Z'
+    # set up for test
+    current_time = datetime.now()
+    formatted_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
 
-    _, sub_id = cam_location(CAM_NAME, TOKEN)
-    post_observation(sub_id, LABEL, formatted_time, hdr)
+    try:
+        _, sub_id = cam_location(CAM_NAME, TOKEN)
+        post_observation(sub_id, LABEL, formatted_time, hdr)
+
+    except KeyError:
+        print("Invalid Authorization.")
 
 
 if __name__ == "__main__":

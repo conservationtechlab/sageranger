@@ -1,7 +1,7 @@
 """Test cougar log
 
 Usage:
-    python3 unit_tests.test_cougar_log
+    python3 -m unit_tests.test_cougar_log
 
 This function test creating observations in
 earthranger for the specifed camera.
@@ -24,9 +24,12 @@ def main():
     in earthranger.
 
     """
-
-    is_target(CAMERA, TOKEN, LABEL)
-
+    try:
+        is_target(CAMERA, TOKEN, LABEL)
+    except KeyError:
+        print("Invalid Authorization.")
+    except IndexError:
+        print("Invalid or non existent camera name.")
 
 if __name__ == "__main__":
     main()

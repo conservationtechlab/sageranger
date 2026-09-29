@@ -21,8 +21,13 @@ def main():
     coordinates and the event id.
 
     """
-    coordinates, s_id = cam_location(CAMERA, TOKEN)
-    print("Coordintes and ID:", coordinates, s_id)
+    try:
+        coordinates, s_id = cam_location(CAMERA, TOKEN)
+        print("Success Coordintes and ID:", coordinates, s_id)
+    except KeyError:
+        print("Invalid Authorization.")
+    except IndexError:
+        print("Invalid or non-existent camera name.")
 
 
 if __name__ == "__main__":

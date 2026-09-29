@@ -12,7 +12,7 @@ For use in cougarvision (visit readme) or for testing (see below) an authorizati
 Sageranger performs multiple functions such as posting events to earthranger, attaching images to events, creating camera sources and subjects, posting observations to camera subjects and retrieving camera coordinates and subject ids.
 
 post_camera_er.py:
-Uses a csv containing camera data such as coordinates and camera names. This csv is located on your local machine. Post camera posts an intial observation for each camera at their specified coordinates to make cameras visible on the map.
+Uses a csv containing camera data such as coordinates and camera names. This csv is located on your local machine. Post camera posts an initial observation for each camera at their specified coordinates to make cameras visible on the map.
 
 post_event_er.py:
 Posts events of specified type (ex. "cougarvision_detection") to earthranger. 
@@ -31,6 +31,12 @@ An optional function which posts empty observations to keep cameras visible on t
 
 post_obs.py:
 Is a supporting function which handles posting observations for the post_camera.py, post_monthly.py, and post_cougar_log.py functions. 
+
+unpack_info.py:
+This function supports unpacking values from a config file to a dataclass. Used in both sageranger and cougarvision.
+
+sensor_class.py:
+This is a dataclass containing values from the config file found in the config folder.
 
 For more information about the earthranger api visit  <your_instance>.pamdas.org/api/v1.0/docs/interactive/
 

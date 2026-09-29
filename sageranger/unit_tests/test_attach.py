@@ -27,13 +27,21 @@ def main():
     the response from the attach image function.
 
     """
-    event_id = post_event(LABEL, CAMERA, TOKEN)
-    img = Image.open(FILE_PATH)
-    image_bytes = BytesIO()
-    img.save(image_bytes, format="JPEG")
-    final_image = image_bytes.getvalue()
-    response_attach = attach_image(event_id, final_image, TOKEN, LABEL)
-    print("Response:", response_attach)
+    try:
+        # setup
+        event_id = post_event(LABEL, CAMERA, TOKEN)
+        img = Image.open(FILE_PATH)
+        image_bytes = BytesIO()
+        img.save(image_bytes, format="JPEG")
+        final_image = image_bytes.getvalue()
+
+        response_attach = attach_image(event_id,
+                                       final_image,
+                                       TOKEN,
+                                       LABEL)
+        print("Success!, Response:", response_attach)
+    except KeyError:
+        print("Invalid authorization.")
 
 
 if __name__ == "__main__":
