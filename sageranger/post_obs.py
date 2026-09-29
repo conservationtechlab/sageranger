@@ -6,11 +6,13 @@ used by post cougar_log, post_camera,
 and post_monthly.
 
 """
-
+import json
+from importlib import resources
 import requests
 
 
 def post_observation(subject_id, label, time, hdr):
+    # pylint: disable=too-many-locals
     """ Post Observation
 
     This function posts an observation using the subject_id,
@@ -26,24 +28,35 @@ def post_observation(subject_id, label, time, hdr):
             https://<YOUR INSTANCE>.pamdas.org/api/v1.0/docs/interactive/ )
 
     """
-
     url = 'https://sagebrush.pamdas.org/api/v1.0/'
+
+    json_file = 'camera.json'  # can change to different sensors
+
+    path_to_json = resources.files(
+                   "sageranger") / "observation_payloads" / json_file
+
+    with path_to_json.open('r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    if json_file == 'camera.json':
+        data["additional"]["animal"] = label
 
     url_3 = url + 'subject/' + subject_id + '/sources/'
     response = requests.get(url_3, headers=hdr, timeout=10)
     response_json = response.json()
-
     source_id = response_json['data'][0]['id']
+
     payload = {
         "location": {
             "longitude": 0,
             "latitude": 0},
         "recorded_at": time,
         "source": source_id,
-        "device_status_properties":
-            [{"value": "test", "label": "animal", "units": ""}],
-        "additional": {"animal": label}
+        "device_status_properties": data[
+            "device_status_properties"],
+        "additional": data["additional"]
         }
+
     url_5 = url + 'observations/'
     obs = requests.post(url_5, headers=hdr, json=payload, timeout=20)
     print("Observation response: ", obs)

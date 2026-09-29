@@ -1,0 +1,5 @@
+ {
+    "device_status_properties":
+        [{"value": "test", "label": "animal", "units": ""}],
+    "additional": {"animal": ""}
+}
